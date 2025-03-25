@@ -1,9 +1,13 @@
 import requests
 import re
-import chromadb
 import os
+
 from github import Github, Auth
 from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.schema import Document
+from langchain_community.embeddings import OpenAIEmbeddings
+from langchain_community.vectorstores import Chroma
+from chromadb.config import Settings
 
 
 CHROMA_DB_HOST = os.environ.get("CHROMA_DB_HOST")
@@ -16,6 +20,17 @@ BASE_URL = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/re
 
 
 auth = Auth.Token(GITHUB_TOKEN)
+embeddings = OpenAIEmbeddings(model="text-embedding-ada-002", openai_api_key=OPENAI_API_KEY)
+
+
+db = Chroma(
+    collection_name="my_first_quiz",
+    embedding_function=embeddings,
+    persist_directory="./chroma_store"
+)
+
+
+print(db._collection.count())
 
 
 def clean_md_for_rag(content):
@@ -51,25 +66,26 @@ def open_pr():
     g.close()
 
 
-def split_text_into_chuncks(content, chunk_size=500, chunk_overlap=100):
-    splitter = RecursiveCharacterTextSplitter(
-        chunk_size=chunk_size,
-        chunk_overlap=chunk_overlap,
-        separators=["\n\n", "\n", ".", " "]
-    )
-    
-    return splitter.split_text(content)
-
-
 def main():
     sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
     
     response = requests.get(sample_url)
     if response.status_code == 200:
-        content = clean_md_for_rag(response.text)
-        chunks = split_text_into_chuncks(content)
         
-        print(chunks)
+        
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=500,
+            chunk_overlap=100,
+            separators=["\n\n", "\n", ".", " "]
+        )
+        
+        chunks = splitter.split_text(response.text)
+        documents = [Document(page_content=chunk, metadata={}) for chunk in chunks]
+        
+        db.add_documents(documents)
+        
+        print(db._collection.count())
+        
         
         # with open("decouverte-docker.md", "w", encoding="utf-8") as file:
         #     file.write(clean_md_for_rag(response.text))
