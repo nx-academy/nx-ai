@@ -2,7 +2,7 @@ import requests
 import re
 import chromadb
 import os
-from github import Github
+from github import Github, Auth
 
 
 CHROMA_DB_HOST = os.environ.get("CHROMA_DB_HOST")
@@ -12,6 +12,9 @@ OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 
 BASE_URL = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/cours"
+
+
+auth = Auth.Token(GITHUB_TOKEN)
 
 
 def clean_md_for_rag(content):
@@ -33,6 +36,20 @@ def clean_md_for_rag(content):
     return content.strip()
 
 
+def open_pr():
+    g = Github(auth=auth)
+    
+    repo = g.get_organization("nx-academy").get_repo("nx-academy.github.io")
+    repo.create_pull(
+        base="main",
+        title="J'essaye d'ouvrir une PR",
+        body="Un test d'ouverture de PR automatisé",
+        head="content_math-data-science"
+    )
+        
+    g.close()
+
+
 def main():
     sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
     
@@ -48,7 +65,8 @@ def main():
     
 
 if __name__ == "__main__":
+    pass
     # main()
     
-    chroma_client = chromadb.HttpClient(host=CHROMA_DB_HOST, port=CHROMA_DB_PORT)
-    print(chroma_client.heartbeat())
+    # chroma_client = chromadb.HttpClient(host=CHROMA_DB_HOST, port=CHROMA_DB_PORT)
+    # print(chroma_client.heartbeat())
