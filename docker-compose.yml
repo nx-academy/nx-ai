@@ -3,6 +3,8 @@ services:
     build: .
     depends_on:
       - chroma-db
+    env_file:
+      - ./.env
 
   chroma-db:
     image: chromadb/chroma
