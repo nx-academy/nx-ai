@@ -1,3 +1,10 @@
 services:
   python-app:
     build: .
+    depends_on:
+      - chroma-db
+
+  chroma-db:
+    image: chromadb/chroma
+    ports:
+      - 8000:8000
