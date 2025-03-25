@@ -3,6 +3,7 @@ import re
 import chromadb
 import os
 from github import Github, Auth
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 
 
 CHROMA_DB_HOST = os.environ.get("CHROMA_DB_HOST")
@@ -50,13 +51,28 @@ def open_pr():
     g.close()
 
 
+def split_text_into_chuncks(content, chunk_size=500, chunk_overlap=100):
+    splitter = RecursiveCharacterTextSplitter(
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        separators=["\n\n", "\n", ".", " "]
+    )
+    
+    return splitter.split_text(content)
+
+
 def main():
     sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
     
     response = requests.get(sample_url)
     if response.status_code == 200:
-        with open("decouverte-docker.md", "w", encoding="utf-8") as file:
-            file.write(clean_md_for_rag(response.text))
+        content = clean_md_for_rag(response.text)
+        chunks = split_text_into_chuncks(content)
+        
+        print(chunks)
+        
+        # with open("decouverte-docker.md", "w", encoding="utf-8") as file:
+        #     file.write(clean_md_for_rag(response.text))
             
         print(f"✅ File saved and downloaded as : {"decouverte-docker"}")
         
@@ -65,8 +81,7 @@ def main():
     
 
 if __name__ == "__main__":
-    pass
-    # main()
+    main()
     
     # chroma_client = chromadb.HttpClient(host=CHROMA_DB_HOST, port=CHROMA_DB_PORT)
     # print(chroma_client.heartbeat())
