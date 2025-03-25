@@ -1,5 +1,14 @@
 import requests
 import re
+import chromadb
+import os
+from github import Github
+
+
+CHROMA_DB_HOST = os.environ.get("CHROMA_DB_HOST")
+CHROMA_DB_PORT = os.environ.get("CHROMA_DB_PORT")
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
 
 
 BASE_URL = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/cours"
@@ -39,4 +48,7 @@ def main():
     
 
 if __name__ == "__main__":
-    main()
+    # main()
+    
+    chroma_client = chromadb.HttpClient(host=CHROMA_DB_HOST, port=CHROMA_DB_PORT)
+    print(chroma_client.heartbeat())
