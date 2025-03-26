@@ -37,39 +37,36 @@ db = Chroma(
     persist_directory="./chroma_store"
 )
 
-# LangChain Config
-retriever = db.as_retriever(search_type="similarity", search_kwargs={"k": 4})
-docs = retriever.get_relevant_documents("Génère un quiz sur ce chapitre")
 
-# 3. Concaténer le contenu
-context = "\n\n".join([doc.page_content for doc in docs])
+def creating_quiz():
+    retriever = db.as_retriever(search_type="similarity", search_kwargs={"k": 4})
 
-# 4. Construire ton prompt manuellement
-prompt = f"""
-Tu es un générateur de quiz pédagogique.
+    docs = retriever.get_relevant_documents("Génère un quiz sur ce chapitre")
+    context = "\n\n".join([doc.page_content for doc in docs])
 
-À partir du contenu suivant, génère 3 questions à choix multiples. 
-Chaque question doit avoir 4 propositions, dont une seule correcte. 
+    prompt = f"""
+    Tu es un générateur de quiz pédagogique.
 
-Réponds au format JSON comme ceci :
+    À partir du contenu suivant, génère 3 questions à choix multiples. 
+    Chaque question doit avoir 4 propositions, dont une seule correcte. 
 
-[
-  {{
-    "question": "...",
-    "options": ["..."],
-    "answer": "..."
-  }}
-]
+    Réponds au format JSON comme ceci :
 
-Voici le contenu :
-{context}
-"""
+    [
+    {{
+        "question": "...",
+        "options": ["..."],
+        "answer": "..."
+    }}
+    ]
 
-# 5. Appeler le LLM
-response = llm.predict(prompt)
+    Voici le contenu :
+    {context}
+    """
 
-print(response)
+    response = llm.predict(prompt)
 
+    print(response)
 
 
 def clean_md_for_rag(content):
@@ -140,6 +137,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
-    # chroma_client = chromadb.HttpClient(host=CHROMA_DB_HOST, port=CHROMA_DB_PORT)
-    # print(chroma_client.heartbeat())
