@@ -1,12 +1,7 @@
 services:
-  python-app:
+  app:
     build: .
     depends_on:
       - chroma-db
     env_file:
       - ./.env
-
-  chroma-db:
-    image: chromadb/chroma
-    ports:
-      - 8000:8000
