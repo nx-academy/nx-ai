@@ -2,6 +2,9 @@
 .*.swp
 chroma_store
 
+# For now, I decided to comment the courses I fetch from GitHub.
+nx_ai/courses_data
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

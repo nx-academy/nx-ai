@@ -1,6 +1,9 @@
 import click
 
 
+from nx_ai.github import fetch_chapter_from_github
+
+
 @click.group()
 def cli():
     pass
@@ -13,7 +16,7 @@ def say_hello():
 
 @cli.command()
 def fetch_chapter():
-    pass
+    fetch_chapter_from_github()
 
 
 if __name__ == "__main__":
