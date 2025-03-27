@@ -15,4 +15,3 @@ def get_config():
         "github_token": GITHUB_TOKEN,
         "openai_api_key": OPENAI_API_KEY
     }
-
