@@ -1,5 +1,7 @@
 import requests
 
+from nx_ai.utils import clean_md_for_rag
+
 
 BASE_URL = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/cours"
 
@@ -11,4 +13,4 @@ def fetch_chapter_from_github():
     
     if response.status_code == 200:
         with open("nx_ai/courses_data/decouverte-docker.md", "w", encoding="utf-8") as file:
-            file.write(response.text)
+            file.write(clean_md_for_rag(response.text))
