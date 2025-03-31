@@ -69,20 +69,6 @@ def create_quiz():
     print(response)
 
 
-def open_pr():
-    g = Github(auth=auth)
-    
-    repo = g.get_organization("nx-academy").get_repo("nx-academy.github.io")
-    repo.create_pull(
-        base="main",
-        title="J'essaye d'ouvrir une PR",
-        body="Un test d'ouverture de PR automatisé",
-        head="content_math-data-science"
-    )
-        
-    g.close()
-
-
 def fetch_chapter():
     sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
     
@@ -111,14 +97,3 @@ def fetch_chapter():
         
     else:
         print(f"❌ Error when downloading the file ({response.status_code}) : {sample_url}")
-
-
-
-def main():
-    print("====")
-    print("====")
-    print("====")
-
-
-if __name__ == "__main__":
-    main()
