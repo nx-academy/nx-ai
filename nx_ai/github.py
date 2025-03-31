@@ -29,13 +29,17 @@ def create_pull_request_on_github():
     sb = repo.get_branch("main")
     repo.create_git_ref(ref=f"refs/heads/{"test-quiz"}", sha=sb.commit.sha)
     
+    print(f"Successfully created branch test-quiz")
+    
+    
+    with open("nx_ai/quiz_data/test.json", "r", encoding="utf-8") as f:
+        content = f.read()
+    
     repo.create_file(
-        path="",
-        message="",
-        content="",
-        branch=""
+        path="src/data/test.json",
+        message="Ajout du quiz de test",
+        content=content,
+        branch="test-quiz"
     )
     
-    
-    
-    print(f"Successfully created branch test-quiz")
+    print(f"Successfully commit test.json file")
