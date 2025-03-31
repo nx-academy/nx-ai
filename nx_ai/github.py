@@ -43,3 +43,15 @@ def create_pull_request_on_github():
     )
     
     print(f"Successfully commit test.json file")
+    
+    repo.create_pull(
+        base="main",
+        title="J'essaye d'ouvrir ma PR avec un fichier",
+        body="Un test d'ouverture automatisé avec un fichier et une branche de base",
+        head="test-quiz"
+    )
+    
+    print(f"Successfully create the PR")
+    
+    g.close()
+    
