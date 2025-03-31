@@ -29,4 +29,13 @@ def create_pull_request_on_github():
     sb = repo.get_branch("main")
     repo.create_git_ref(ref=f"refs/heads/{"test-quiz"}", sha=sb.commit.sha)
     
+    repo.create_file(
+        path="",
+        message="",
+        content="",
+        branch=""
+    )
+    
+    
+    
     print(f"Successfully created branch test-quiz")
