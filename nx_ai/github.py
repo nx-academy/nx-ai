@@ -1,4 +1,5 @@
 import requests
+import os
 from github import Github, Auth
 
 from nx_ai.utils import clean_md_for_rag
@@ -11,12 +12,19 @@ BASE_URL = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/re
 auth = Auth.Token(get_config()["github_token"])
 
 
+def create_course_folder():
+    if not os.path.exists("nx_ai/courses_data"):
+        os.makedirs("nx_ai/courses_data")
+
+
 def fetch_chapter_from_github():
     sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
     
     response = requests.get(sample_url)
     
     if response.status_code == 200:
+        create_course_folder()
+        
         with open("nx_ai/courses_data/decouverte-docker.md", "w", encoding="utf-8") as file:
             file.write(clean_md_for_rag(response.text))
 
