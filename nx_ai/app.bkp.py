@@ -83,7 +83,7 @@ def fetch_chapter():
         )
         
         chunks = splitter.split_text(response.text)
-        documents = [Document(page_content=chunk, metadata={}) for chunk in chunks]
+        documents = [Document(page_content=chunk, metadata={"chapter": "decouverte-docker"}) for chunk in chunks]
         
         db.add_documents(documents)
         

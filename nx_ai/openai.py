@@ -1,6 +1,8 @@
+from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.embeddings import OpenAIEmbeddings
 from langchain_community.chat_models import ChatOpenAI
 from langchain_community.vectorstores import Chroma
+from langchain.schema import Document
 
 from nx_ai.config import get_config
 
@@ -25,7 +27,17 @@ def configure_engine():
 
 
 def write_embedded_document():
-    print("====")
-    print("====")
-    print("====")
+    with open("nx_ai/courses_data/decouverte-docker.md", "r", encoding="utf-8") as file:
+        file = file.read()
+        
+        splitter = RecursiveCharacterTextSplitter(
+            chunk_size=500,
+            chunk_overlap=100,
+            separators=["\n### ", "\n## ", "\n# ", "\n\n", "\n", ".", " "]
+        )
+        
+        chunks = splitter.split_text(file)
+        documents = [Document(page_content=chunk, metadata={"chapter": "decouverte-docker"}) for chunk in chunks]
 
+# results = db.get(where={"chapter": "docker-intro"})
+# full_context = "\n\n".join(results["documents"])
