@@ -2,7 +2,7 @@ import click
 
 
 from nx_ai.github import fetch_chapter_from_github, create_pull_request_on_github
-from nx_ai.openai import write_embedded_document, get_embedded_documents
+from nx_ai.openai import write_embedded_document, generate_quiz_from_gpt
 
 
 @click.group()
@@ -21,8 +21,8 @@ def write_embedded_chapter():
 
 
 @cli.command()
-def get_embedded_chapter():
-    get_embedded_documents()
+def generate_quiz():
+    generate_quiz_from_gpt()
 
 
 @cli.command()

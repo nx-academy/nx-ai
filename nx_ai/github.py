@@ -62,4 +62,3 @@ def create_pull_request_on_github():
     print(f"Successfully create the PR")
     
     g.close()
-    
