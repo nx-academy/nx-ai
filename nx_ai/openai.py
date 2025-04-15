@@ -53,39 +53,53 @@ def generate_quiz_from_gpt():
     results = db.get(where={"chapter": "decouverte-docker"})
     full_context = "\n\n".join(results["documents"])
 
-    prompt = f"""
-    Tu es un générateur de quiz pédagogique.
+    all_questions = []
+    for i in range(3):
+        print(f"📦 Generating questions bloc: {i + 1} / 5...")
 
-    À partir du contenu suivant, génère 10 question à choix multiples. 
-    Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte.
 
-    Garde le même ton que l'auteur du texte pour la réalisation du quiz.
+        prompt = f"""
+        Tu es un générateur de quiz pédagogique.
 
-    Réponds au format JSON comme ceci :
+        À partir du contenu suivant, génère **1** question à choix multiples. 
+        
+        Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
 
-    {{
-      "data": [
+        Garde le même ton que l'auteur du texte pour la réalisation du quiz.
+
+        Réponds au format JSON comme ceci :
+
         {{
-          "question": "...",
-          "options": ["...", "...", "...", "..."],
-          "answer": "...",
-          "explanation": "..."
+        "data": [
+            {{
+            "question": "...",
+            "options": ["...", "...", "...", "..."],
+            "answer": "...",
+            "explanation": "..."
+            }}
+        ]
         }}
-      ]
-    }}
 
-    Voici le contenu :
-    {full_context}
-    """
+        Voici le contenu :
+        {full_context}
+        """
 
-    response = llm.predict(prompt)
+        response = llm.predict(prompt)
 
-    try:
-        quiz = json.loads(response)
-        with open("nx_ai/quizzes_data/decouverte-docker.json", "w", encoding="utf-8") as file:
-            json.dump(quiz, file, indent=4, ensure_ascii=False)
-            print("✅ The Quiz has been saved!")
+        try:
+            parsed = json.loads(response)
+            if "data" in parsed and isinstance(parsed["data"], list):
+                all_questions.extend(parsed["data"])
+                print(f"✅ Bloc {i + 1} received.")
+            else:
+                print(f"⚠️ Bloc {i + 1} :unattended format")
+        except:
+            print(f"❌ Bloc {i + 1} :issues with JSON format. Failed to update all_questions list")
+            print(response)
+        
+    
+    full_quiz = { "data": all_questions }
+    with open("nx_ai/quizzes_data/decouverte-docker.json", "w", encoding="utf-8") as file:
+        json.dump(full_quiz, file, indent=4, ensure_ascii=False)
 
-    except json.JSONDecodeError:
-        print("❌ Failing to decode quiz JSON file")
-        print(response)
+    print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
