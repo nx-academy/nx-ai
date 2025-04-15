@@ -1,8 +1,5 @@
-import requests
-import re
-import os
 
-from github import Github, Auth
+import os
 
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.schema import Document
@@ -12,7 +9,7 @@ from langchain_community.chat_models import ChatOpenAI
 from langchain.prompts import PromptTemplate
 from langchain.chains import RetrievalQA
 
-from chromadb.config import Settings
+
 
 
 CHROMA_DB_HOST = os.environ.get("CHROMA_DB_HOST")
@@ -67,33 +64,3 @@ def create_quiz():
     response = llm.predict(prompt)
 
     print(response)
-
-
-def fetch_chapter():
-    sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
-    
-    response = requests.get(sample_url)
-    if response.status_code == 200:
-        
-        
-        splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=100,
-            separators=["\n\n", "\n", ".", " "]
-        )
-        
-        chunks = splitter.split_text(response.text)
-        documents = [Document(page_content=chunk, metadata={"chapter": "decouverte-docker"}) for chunk in chunks]
-        
-        db.add_documents(documents)
-        
-        print(db._collection.count())
-        
-        
-        # with open("decouverte-docker.md", "w", encoding="utf-8") as file:
-        #     file.write(clean_md_for_rag(response.text))
-            
-        print(f"✅ File saved and downloaded as : {"decouverte-docker"}")
-        
-    else:
-        print(f"❌ Error when downloading the file ({response.status_code}) : {sample_url}")

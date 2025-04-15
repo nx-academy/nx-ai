@@ -27,6 +27,9 @@ def configure_engine():
 
 
 def write_embedded_document():
+    engine = configure_engine()
+    db = engine["db"]
+
     with open("nx_ai/courses_data/decouverte-docker.md", "r", encoding="utf-8") as file:
         file = file.read()
         
@@ -39,5 +42,20 @@ def write_embedded_document():
         chunks = splitter.split_text(file)
         documents = [Document(page_content=chunk, metadata={"chapter": "decouverte-docker"}) for chunk in chunks]
 
-# results = db.get(where={"chapter": "docker-intro"})
-# full_context = "\n\n".join(results["documents"])
+        db.add_documents(documents)
+
+        print("======")
+        print(db._collection.count())
+        print("======")
+        
+
+def get_embedded_documents():
+    engine = configure_engine()
+    db = engine["db"]
+
+    results = db.get(where={"chapter": "decouverte-docker"})
+    full_context = "\n\n".join(results["documents"])
+
+    print("====")
+    print(full_context)
+    print("====")
