@@ -9,9 +9,6 @@ from nx_ai.config import get_config
 BASE_URL = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/cours"
 
 
-auth = Auth.Token(get_config()["github_token"])
-
-
 def create_course_folder():
     if not os.path.exists("nx_ai/courses_data"):
         os.makedirs("nx_ai/courses_data")
@@ -30,6 +27,7 @@ def fetch_chapter_from_github():
 
 
 def create_pull_request_on_github():
+    auth = Auth.Token(get_config()["github_token"])
     g = Github(auth=auth)
     
     repo = g.get_organization("nx-academy").get_repo("nx-academy.github.io")
