@@ -5,6 +5,7 @@ annotated-types==0.7.0
 anyio==4.9.0
 asgiref==3.8.1
 attrs==25.3.0
+audioop-lts==0.2.1
 backoff==2.2.1
 bcrypt==4.3.0
 build==1.2.2.post1
@@ -19,6 +20,7 @@ coloredlogs==15.0.1
 cryptography==44.0.2
 dataclasses-json==0.6.7
 Deprecated==1.2.18
+discord.py==2.5.2
 distro==1.9.0
 durationpy==0.9
 fastapi==0.115.12
