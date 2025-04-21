@@ -4,6 +4,7 @@ import click
 from nx_ai.github import fetch_chapter_from_github, create_pull_request_on_github
 from nx_ai.openai import write_embedded_document, generate_quiz_from_gpt
 from nx_ai.bot_test import run_bot
+from nx_ai.medium import scrape_medium_article
 
 
 @click.group()
@@ -34,6 +35,11 @@ def create_pull_request():
 @cli.command()
 def run_discord_bot():
     run_bot()
+
+
+@cli.command()
+def scrape_medium():
+    scrape_medium_article()
 
 
 if __name__ == "__main__":
