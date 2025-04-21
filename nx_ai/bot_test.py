@@ -9,14 +9,14 @@ def run_bot():
     client = discord.Client(intents=intents)
 
     DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
-    DISCORD_TEST_CHANNEL = os.environ.get("DISCORD_TEST_CHANNEL")
+    DISCORD_RECAP_CHANNEL = os.environ.get("DISCORD_RECAP_CHANNEL")
 
 
     @client.event
     async def on_ready():
         print(f"Bot connected as {client.user}")
 
-        channel_id = 1357783834208243867
+        channel_id = DISCORD_RECAP_CHANNEL
         channel = client.get_channel(channel_id)
 
         if channel:
