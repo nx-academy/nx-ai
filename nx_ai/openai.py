@@ -14,8 +14,9 @@ def configure_engine():
     embeddings = OpenAIEmbeddings(model="text-embedding-ada-002", openai_api_key=openai_api_key)
     llm = ChatOpenAI(model="gpt-4", temperature=0.7, openai_api_key=openai_api_key)
     
+    # @TODO: Maybe move collection_name as env variable later
     db = Chroma(
-        collection_name="my_first_quiz",
+        collection_name="nx_db",
         embedding_function=embeddings,
         persist_directory="./chroma_store"
     )
@@ -49,13 +50,28 @@ def create_document_with_chroma(file_location, document_name):
         print(f"Unable to find the location {file_location} for the file named: {document_name}")
         
 
-def generate_quiz_from_gpt():
+def generate_quiz_from_gpt(document_name):
     engine = configure_engine()
     db = engine["db"]
     llm = engine["llm"]
 
-    results = db.get(where={"chapter": "decouverte-docker"})
-    full_context = "\n\n".join(results["documents"])
+    results = db.get(where={"content": document_name})
+    
+    if len(results["documents"]) == 0:
+        print("Unable to find the document in Chroma.")
+        return
+    
+    print("====")
+    print("====")
+    print("====")
+    
+    # full_context = "\n\n".join(results["documents"])
+    
+    # print("=====")
+    # print(full_context)
+    # print("=====")
+    
+    return
 
     all_questions = []
     for i in range(3):

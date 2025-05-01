@@ -29,8 +29,10 @@ def create_document(location, name):
 
 
 @cli.command()
-def generate_quiz():
-    generate_quiz_from_gpt()
+@click.option("--name", prompt="Document name", help="Enter the document name you want to generate a quiz from")
+def generate_quiz(name):
+    """Retrieve a document stored in Chroma, then ask GPT to create a quiz, and store it as a json file once it's done."""
+    generate_quiz_from_gpt(name)
 
 
 @cli.command()
