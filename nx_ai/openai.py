@@ -26,23 +26,27 @@ def configure_engine():
     }
 
 
-def write_embedded_document():
-    engine = configure_engine()
-    db = engine["db"]
+def create_document_with_chroma(file_location, document_name):
+    try:
+        with open(f"{file_location}", "r", encoding="utf-8") as file:
+            file = file.read()
+            
+            engine = configure_engine()
+            db = engine["db"]
+                    
+            splitter = RecursiveCharacterTextSplitter(
+                chunk_size=500,
+                chunk_overlap=100,
+                separators=["\n### ", "\n## ", "\n# ", "\n\n", "\n", ".", " "]
+            )
+            
+            chunks = splitter.split_text(file)
+            documents = [Document(page_content=chunk, metadata={"content": document_name}) for chunk in chunks]
 
-    with open("nx_ai/courses_data/decouverte-docker.md", "r", encoding="utf-8") as file:
-        file = file.read()
-        
-        splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=100,
-            separators=["\n### ", "\n## ", "\n# ", "\n\n", "\n", ".", " "]
-        )
-        
-        chunks = splitter.split_text(file)
-        documents = [Document(page_content=chunk, metadata={"chapter": "decouverte-docker"}) for chunk in chunks]
-
-        db.add_documents(documents)
+            db.add_documents(documents)
+            
+    except FileNotFoundError:
+        print(f"Unable to find the location {file_location} for the file named: {document_name}")
         
 
 def generate_quiz_from_gpt():
