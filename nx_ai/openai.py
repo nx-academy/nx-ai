@@ -55,26 +55,16 @@ def generate_quiz_from_gpt(document_name):
     db = engine["db"]
     llm = engine["llm"]
 
-    results = db.get(where={"content": document_name})
-    
+    results = db.get(where={"content": document_name})    
     if len(results["documents"]) == 0:
         print("Unable to find the document in Chroma.")
         return
-    
-    print("====")
-    print("====")
-    print("====")
-    
-    # full_context = "\n\n".join(results["documents"])
-    
-    # print("=====")
-    # print(full_context)
-    # print("=====")
-    
-    return
 
+
+    full_context = "\n\n".join(results["documents"])
+    
     all_questions = []
-    for i in range(3):
+    for i in range(5):
         print(f"📦 Generating questions bloc: {i + 1} / 5...")
 
 
@@ -119,7 +109,7 @@ def generate_quiz_from_gpt(document_name):
         
     
     full_quiz = { "data": all_questions }
-    with open("nx_ai/quizzes_data/decouverte-docker.json", "w", encoding="utf-8") as file:
+    with open(f"nx_ai/quizzes_data/{document_name}.json", "w", encoding="utf-8") as file:
         json.dump(full_quiz, file, indent=4, ensure_ascii=False)
 
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")

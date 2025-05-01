@@ -36,8 +36,10 @@ def generate_quiz(name):
 
 
 @cli.command()
-def create_pull_request():
-    create_pull_request_on_github()
+@click.option("--name", prompt="Document name", help="Enter the name of the document you want to create a Pull Request on GitHub from.")
+def create_pull_request(name):
+    """Retrieve the generated quiz json file, connect to NX GitHub org, commit the file, and create a PR on main"""
+    create_pull_request_on_github(name)
 
 
 @cli.command()
