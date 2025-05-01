@@ -14,15 +14,15 @@ def create_course_folder():
         os.makedirs("nx_ai/courses_data")
 
 
-def fetch_chapter_from_github():
-    sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
+def write_content_from_github(url, document_name):
+    # sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
     
-    response = requests.get(sample_url)
+    response = requests.get(url)
     
     if response.status_code == 200:
         create_course_folder()
         
-        with open("nx_ai/courses_data/decouverte-docker.md", "w", encoding="utf-8") as file:
+        with open(f"nx_ai/courses_data/{document_name}", "w", encoding="utf-8") as file:
             file.write(clean_md_for_rag(response.text))
 
 
