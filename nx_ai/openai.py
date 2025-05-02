@@ -14,8 +14,9 @@ def configure_engine():
     embeddings = OpenAIEmbeddings(model="text-embedding-ada-002", openai_api_key=openai_api_key)
     llm = ChatOpenAI(model="gpt-4", temperature=0.7, openai_api_key=openai_api_key)
     
+    # @TODO: Maybe move collection_name as env variable later
     db = Chroma(
-        collection_name="my_first_quiz",
+        collection_name="nx_db",
         embedding_function=embeddings,
         persist_directory="./chroma_store"
     )
@@ -26,35 +27,44 @@ def configure_engine():
     }
 
 
-def write_embedded_document():
-    engine = configure_engine()
-    db = engine["db"]
+def create_document_with_chroma(file_location, document_name):
+    try:
+        with open(f"{file_location}", "r", encoding="utf-8") as file:
+            file = file.read()
+            
+            engine = configure_engine()
+            db = engine["db"]
+                    
+            splitter = RecursiveCharacterTextSplitter(
+                chunk_size=500,
+                chunk_overlap=100,
+                separators=["\n### ", "\n## ", "\n# ", "\n\n", "\n", ".", " "]
+            )
+            
+            chunks = splitter.split_text(file)
+            documents = [Document(page_content=chunk, metadata={"content": document_name}) for chunk in chunks]
 
-    with open("nx_ai/courses_data/decouverte-docker.md", "r", encoding="utf-8") as file:
-        file = file.read()
-        
-        splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=100,
-            separators=["\n### ", "\n## ", "\n# ", "\n\n", "\n", ".", " "]
-        )
-        
-        chunks = splitter.split_text(file)
-        documents = [Document(page_content=chunk, metadata={"chapter": "decouverte-docker"}) for chunk in chunks]
-
-        db.add_documents(documents)
+            db.add_documents(documents)
+            
+    except FileNotFoundError:
+        print(f"Unable to find the location {file_location} for the file named: {document_name}")
         
 
-def generate_quiz_from_gpt():
+def generate_quiz_from_gpt(document_name):
     engine = configure_engine()
     db = engine["db"]
     llm = engine["llm"]
 
-    results = db.get(where={"chapter": "decouverte-docker"})
-    full_context = "\n\n".join(results["documents"])
+    results = db.get(where={"content": document_name})    
+    if len(results["documents"]) == 0:
+        print("Unable to find the document in Chroma.")
+        return
 
+
+    full_context = "\n\n".join(results["documents"])
+    
     all_questions = []
-    for i in range(3):
+    for i in range(5):
         print(f"📦 Generating questions bloc: {i + 1} / 5...")
 
 
@@ -99,7 +109,7 @@ def generate_quiz_from_gpt():
         
     
     full_quiz = { "data": all_questions }
-    with open("nx_ai/quizzes_data/decouverte-docker.json", "w", encoding="utf-8") as file:
+    with open(f"nx_ai/quizzes_data/{document_name}.json", "w", encoding="utf-8") as file:
         json.dump(full_quiz, file, indent=4, ensure_ascii=False)
 
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
