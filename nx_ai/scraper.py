@@ -1,7 +1,6 @@
 import requests
 from readability import Document
 from bs4 import BeautifulSoup
-from pathlib import Path
 
 
 def scrape_article_from_internet(url, filename):
@@ -20,7 +19,11 @@ def scrape_article_from_internet(url, filename):
     soup = BeautifulSoup(clean_html, "html.parser")
     text = soup.get_text(separator="\n")
     
-    with open(filename, "w", encoding="utf-8") as f:
-        f.write(f"# {title}\n\n{text}")
+    lines = [line.strip() for line in text.splitlines()]
+    lines = [line for line in lines if line]  # supprimer les lignes vides
+    body = "\n\n".join(lines)
+    
+    with open(f"nx_ai/articles_data/{filename}", "w", encoding="utf-8") as f:
+        f.write(f"# {title}\n\n{body}")
         
     print(f"✅ Sauvegardé dans : {filename}\n")

@@ -113,3 +113,26 @@ def generate_quiz_from_gpt(document_name):
         json.dump(full_quiz, file, indent=4, ensure_ascii=False)
 
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
+
+
+def generate_summary_with_gpt(document_name):
+    engine = configure_engine()
+    db = engine["db"]
+    llm = engine["llm"]
+
+    results = db.get(where={"content": document_name})    
+    
+    print("===")
+    print(results)
+    print("===")
+    
+    # if len(results["documents"]) == 0:
+    #     print("Unable to find the document in Chroma.")
+    #     return
+
+
+    # full_context = "\n\n".join(results["documents"])
+    
+    # print("=====")
+    # print(full_context)
+    # print("=====")

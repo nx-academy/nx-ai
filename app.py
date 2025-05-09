@@ -2,7 +2,10 @@ import click
 
 
 from nx_ai.github import write_content_from_github, create_pull_request_on_github
-from nx_ai.openai import create_document_with_chroma, generate_quiz_from_gpt
+from nx_ai.openai import (
+    create_document_with_chroma, 
+    generate_quiz_from_gpt, 
+    generate_summary_with_gpt)
 from nx_ai.bot_test import run_bot
 from nx_ai.scraper import scrape_article_from_internet
 
@@ -51,8 +54,8 @@ def run_discord_bot():
 def scrape_article():
     articles = [
         {
-            "url": "https://tdimnet.medium.com/the-monk-the-vape-coder-the-debugger-the-learner-24557b2dd8a5",
-            "filename": "01-medium.txt"
+            "url": "https://nx.academy/articles/profils-ia-developpeur/",
+            "filename": "01-nx.txt"
         },
         {
             "url": "https://karlgroves.com/ai-is-the-future-of-accessibility/",
@@ -66,6 +69,12 @@ def scrape_article():
     
     for article in articles:
         scrape_article_from_internet(article["url"], article["filename"])
+
+
+@cli.command()
+@click.option("--name", prompt="Document name", help="Enter the document name you want to generate a summary from")
+def generate_summary(name):
+    generate_summary_with_gpt(name)
 
 
 if __name__ == "__main__":
