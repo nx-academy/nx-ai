@@ -1,0 +1,40 @@
+# The Monk, the Vape Coder, the Debugger & the Learner | by Thomas Dimnet | Apr, 2025 | Medium
+
+The Learner in front of his computer, pixel art — source: GPT
+The Learner
+TL;DR
+Just starting out. Uses AI as a personal tutor, debugger, and confidence booster. Still figuring things out — but hungry to grow.
+Description
+The Learner is still early in their developer journey — a junior dev, a bootcamp student, a self-taught enthusiast, or even someone transitioning from another field.
+For them, GPT is a 
+teacher
+, a 
+mentor
+, and sometimes… a bit of a 
+crutch
+.
+They don’t always understand the code that GPT outputs — but they trust it enough to try it out. Sometimes they paste code directly into their project just to see if it works. Trial and error is their default learning strategy.
+They’re not optimizing for performance or readability yet — they’re still 
+learning how the pieces fit together
+. Their prompts are often long, exploratory, and full of context — like talking to a real teacher.
+But make no mistake: the Learner is on a 
+path to become one of the other three
+. With enough iterations, questions, and feedback, today’s Learner might be tomorrow’s Monk.
+Workflow
+Prompt-first approach
+: before coding anything, they often ask GPT to explain concepts, structures, or how to get started.
+Code-before-comprehension
+: sometimes they run code they don’t fully understand, then ask GPT to explain what it does.
+Line-by-line learning
+: they might copy a snippet and say 
+“Can you explain this line by line?”
+Theory + practice
+: they ask both conceptual and practical questions — “What’s the difference between var, let and const?”, then “Help me write a function using them.”
+Debug-as-learning
+: they’ll paste an error not just to fix it, but to learn 
+why
+ it happened.
+Collect and adapt
+: they often build a personal library of GPT snippets and explanations.
+Typical prompt from The Learner
+I’m learning JavaScript. Can you explain what this async/await function does, and how I could write one myself?
