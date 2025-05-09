@@ -114,6 +114,7 @@ def generate_quiz_from_gpt(document_name):
 
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
 
+# cnet-test
 
 def generate_summary_with_gpt(document_name):
     engine = configure_engine()
@@ -121,18 +122,12 @@ def generate_summary_with_gpt(document_name):
     llm = engine["llm"]
 
     results = db.get(where={"content": document_name})    
-    
-    print("===")
-    print(results)
-    print("===")
-    
-    # if len(results["documents"]) == 0:
-    #     print("Unable to find the document in Chroma.")
-    #     return
+    if len(results["documents"]) == 0:
+        print("Unable to find the document in Chroma.")
+        return
 
-
-    # full_context = "\n\n".join(results["documents"])
+    full_context = "\n".join(results["documents"])
     
-    # print("=====")
-    # print(full_context)
-    # print("=====")
+    prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
+    response = llm.predict(prompt)
+    
