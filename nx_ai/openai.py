@@ -114,6 +114,9 @@ def generate_quiz_from_gpt(document_name):
 
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
 
+
+# nx-test
+# karl-test
 # cnet-test
 
 def generate_summary_with_gpt(document_name):
@@ -131,3 +134,5 @@ def generate_summary_with_gpt(document_name):
     prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
     response = llm.predict(prompt)
     
+    with open(f"nx_ai/recap_data/mai-2025.md", "w", encoding="utf-8") as file:
+        file.write(f"{response}\n\n")
