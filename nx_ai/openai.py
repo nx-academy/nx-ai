@@ -113,3 +113,32 @@ def generate_quiz_from_gpt(document_name):
         json.dump(full_quiz, file, indent=4, ensure_ascii=False)
 
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
+
+
+# nx-test
+# karl-test
+# cnet-test
+
+def generate_summary_with_gpt(document_name):
+    engine = configure_engine()
+    db = engine["db"]
+    llm = engine["llm"]
+    
+    document_names = ["nx-test", "karl-test", "cnet-test"]
+    
+    text = ""
+    for doc in document_names:
+        results = db.get(where={"content": doc})    
+        if len(results["documents"]) == 0:
+            print("Unable to find the document in Chroma.")
+            return
+
+        full_context = "\n".join(results["documents"])
+        
+        prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
+        response = llm.predict(prompt)
+        
+        text += f"{response}\n\n"
+    
+    with open(f"nx_ai/recap_data/mai-2025.md", "w", encoding="utf-8") as file:
+        file.write(text)
