@@ -159,12 +159,41 @@ def generate_summary_with_gpt(document_name):
 
                 
     full_context = "\n".join(results["documents"])
-    print(full_context)
         
-        # prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
-        # response = llm.predict(prompt)
-        
-        # text += f"{response}\n\n"
+    prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
+    response = llm.predict(prompt)    
     
-    # with open(f"nx_ai/recap_data/mai-2025.md", "w", encoding="utf-8") as file:
-    #     file.write(text)
+    text = f"""
+    ---
+    layout: ../../layouts/BlogPostLayout.astro
+
+    title: "Titre à changer"
+    description: Description à changer
+
+    imgAlt: rien
+    imgSrc: /misc/kiosque-journaux.png
+
+    kind: Articles
+    author: Thomas
+    draft: false
+    publishedDate: mois à préciser
+    ---
+    
+    # Le récap #1 - Date à changer
+
+    <img src="/misc/kiosque-journaux.png" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
+
+    <br>
+
+    ## {title}
+    <small>Par {author}</small>
+
+    {response}
+
+    [Lire l'article]({url})
+
+    <br>
+    """
+    
+    with open(f"nx_ai/recap_data/mai-2025-2.md", "w", encoding="utf-8") as file:
+        file.write(text)
