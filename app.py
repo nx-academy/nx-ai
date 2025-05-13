@@ -26,9 +26,12 @@ def scrape_github(url, name):
 @cli.command()
 @click.option("--location", prompt="File location", help="Enter the path where the file you want to embed is located")
 @click.option("--name", prompt="Document name", help="Enter the name of the document which will be used as metadata for ChromaDB")
-def create_document(location, name):
+@click.option("--title", prompt="Title of the document", default="", help="Optional / Use it if you want to add a title to store in db")
+@click.option("--author", prompt="Author of the document", default="", help="Optional / Use it if you want to add a document author to store in db")
+@click.option("--url", prompt="URL of the document", default="", help="Optional / Use it if you want to store the URL where the document comes from, e.g. an online blog")
+def create_document(location, name, title, author, url):
     """Read a local file, usually a md file, and store it as an embedded document with ChromaDB and GPT API."""
-    create_document_with_chroma(location, name)
+    create_document_with_chroma(location, name, title=title, author=author, url=url)
 
 
 @cli.command()

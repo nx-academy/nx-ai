@@ -27,7 +27,14 @@ def configure_engine():
     }
 
 
-def create_document_with_chroma(file_location, document_name):
+# location: nx_ai/articles_data/03-cnet.txt
+# name: cnet-test
+# title: US Wants Judge to Break Up Google, Force Sale of Chrome
+# author: cnet
+# url: https://www.cnet.com/tech/us-wants-judge-to-break-up-google-force-sale-of-chrome-heres-what-to-know/
+
+
+def create_document_with_chroma(file_location, document_name, title=None, author=None, url=None):
     try:
         with open(f"{file_location}", "r", encoding="utf-8") as file:
             file = file.read()
@@ -42,7 +49,18 @@ def create_document_with_chroma(file_location, document_name):
             )
             
             chunks = splitter.split_text(file)
-            documents = [Document(page_content=chunk, metadata={"content": document_name}) for chunk in chunks]
+            documents = [
+                Document(
+                    page_content=chunk, 
+                    metadata={
+                        "content": document_name,
+                        "title": title,
+                        "author": author,
+                        "url": url
+                    }
+                ) 
+                for chunk in chunks
+            ]
 
             db.add_documents(documents)
             
@@ -115,8 +133,6 @@ def generate_quiz_from_gpt(document_name):
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
 
 
-# nx-test
-# karl-test
 # cnet-test
 
 def generate_summary_with_gpt(document_name):
@@ -124,21 +140,31 @@ def generate_summary_with_gpt(document_name):
     db = engine["db"]
     llm = engine["llm"]
     
-    document_names = ["nx-test", "karl-test", "cnet-test"]
+    # document_names = ["nx-test", "karl-test", "cnet-test"]
     
-    text = ""
-    for doc in document_names:
-        results = db.get(where={"content": doc})    
-        if len(results["documents"]) == 0:
-            print("Unable to find the document in Chroma.")
-            return
+    # text = ""
+    # for doc in document_names:
+    
+    results = db.get(where={"content": document_name})
+    if len(results["documents"]) == 0:
+        print("Unable to find the document in Chroma.")
+        return
 
-        full_context = "\n".join(results["documents"])
+    author = results["metadatas"][-1]["author"]
+    title = results["metadatas"][-1]["title"]
+    url = results["metadatas"][-1]["url"]
+    if not all([author, title, url]):
+        print(f"Document '{document_name}' is incomplet : author, title or url missing.")
+        return
+
+                
+    full_context = "\n".join(results["documents"])
+    print(full_context)
         
-        prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
-        response = llm.predict(prompt)
+        # prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
+        # response = llm.predict(prompt)
         
-        text += f"{response}\n\n"
+        # text += f"{response}\n\n"
     
-    with open(f"nx_ai/recap_data/mai-2025.md", "w", encoding="utf-8") as file:
-        file.write(text)
+    # with open(f"nx_ai/recap_data/mai-2025.md", "w", encoding="utf-8") as file:
+    #     file.write(text)
