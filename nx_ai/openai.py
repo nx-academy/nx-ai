@@ -150,11 +150,13 @@ def generate_summary_with_gpt(document_name):
         print("Unable to find the document in Chroma.")
         return
 
-    author = results["metadatas"][-1]["author"]
-    title = results["metadatas"][-1]["title"]
-    url = results["metadatas"][-1]["url"]
-    if not all([author, title, url]):
-        print(f"Document '{document_name}' is incomplet : author, title or url missing.")
+
+    try:
+        author = results["metadatas"][-1]["author"]
+        title = results["metadatas"][-1]["title"]
+        url = results["metadatas"][-1]["url"]
+    except:
+        print(f"Document '{document_name}' is incomplet : author, title, or url missing.")
         return
 
                 
@@ -193,6 +195,9 @@ def generate_summary_with_gpt(document_name):
     [Lire l'article]({url})
 
     <br>
+    
+    ---
+    
     """
     
     with open(f"nx_ai/recap_data/mai-2025-2.md", "w", encoding="utf-8") as file:
