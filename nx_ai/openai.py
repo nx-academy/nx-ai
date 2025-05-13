@@ -133,8 +133,6 @@ def generate_quiz_from_gpt(document_name):
     print(f"\n✅ Quiz has been generated with ({len(all_questions)} questions)")
 
 
-# cnet-test
-
 def generate_summary_with_gpt(document_name):
     engine = configure_engine()
     db = engine["db"]
