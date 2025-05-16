@@ -23,7 +23,7 @@ def scrape_article_from_internet(url, filename):
     lines = [line for line in lines if line]  # supprimer les lignes vides
     body = "\n\n".join(lines)
     
-    with open(f"nx_ai/articles_data/{filename}", "w", encoding="utf-8") as f:
+    with open(f"nx_ai/articles_data/{filename}.txt", "w", encoding="utf-8") as f:
         f.write(f"# {title}\n\n{body}")
         
     print(f"✅ Sauvegardé dans : {filename}\n")

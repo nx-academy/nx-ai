@@ -80,5 +80,91 @@ def generate_summary(name):
     generate_summary_with_gpt(name)
 
 
+@cli.command()
+def generate_recap():
+    # For now, I pass the list of articles here but I should be able to write it from a file.
+    articles = [
+        {
+            "author": "NX Academy",
+            "filename": "nx",
+            "title": "Le Moine, le Vape Coder, le Debugger & le Learner",
+            "url": "https://nx.academy/articles/profils-ia-developpeur/"
+        },
+        {
+            "author": "Karl Groves",
+            "filename": "karlgroves",
+            "title": "AI is the future of accessibility",
+            "url": "https://karlgroves.com/ai-is-the-future-of-accessibility/"
+        },
+        {
+            "author": "CNET",
+            "filename": "cnet",
+            "title": "US wants judge to break up google force sale of Chrome",
+            "url": "https://www.cnet.com/tech/us-wants-judge-to-break-up-google-force-sale-of-chrome-heres-what-to-know/"
+        }
+    ]
+    
+    for article in articles:
+        # Scrape the article (maybe I can store them locally first)
+        scrape_article_from_internet(article["url"], article["filename"])
+    
+        # Create the doc
+        create_document_with_chroma(
+            f"nx_ai/articles_data/{article["filename"]}.txt",
+            article["filename"],
+            title=article["title"],
+            author=article["author"], 
+            url=article["url"]
+        )
+    
+    # Generate and write Summary
+    text = f"""
+    ---
+    layout: ../../layouts/BlogPostLayout.astro
+
+    title: "Titre à changer"
+    description: Description à changer
+
+    imgAlt: rien
+    imgSrc: /misc/kiosque-journaux.png
+
+    kind: Articles
+    author: Thomas
+    draft: false
+    publishedDate: mois à préciser
+    ---
+    
+    # Le récap #1 - Date à changer
+
+    <img src="/misc/kiosque-journaux.png" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
+
+    <br>
+    """
+    for article in articles:
+        print("Asking GPT API to make the summary")
+        llm_summary = generate_summary_with_gpt(article["filename"])
+        
+        text += f"""
+        ## {article["title"]}
+        <small>{article["author"]}</small>
+        
+        {llm_summary}
+        
+        [Lire l'article]({article["url"]})
+        
+        <br>
+        
+        ---
+        """
+        
+        print(f"""Successfully creating summary for article: {article["filename"]}""")
+    with open(f"nx_ai/recap_data/test.md", "w", encoding="utf-8") as file:
+        file.write(text)
+        print("Successfully creating the file with all the summary")
+    
+    # PR the summary on GitHub
+    print("Now ready to open a PR and enjoy life!")
+
+
 if __name__ == "__main__":
     cli()
