@@ -27,13 +27,6 @@ def configure_engine():
     }
 
 
-# location: nx_ai/articles_data/03-cnet.txt
-# name: cnet-test
-# title: US Wants Judge to Break Up Google, Force Sale of Chrome
-# author: cnet
-# url: https://www.cnet.com/tech/us-wants-judge-to-break-up-google-force-sale-of-chrome-heres-what-to-know/
-
-
 def create_document_with_chroma(file_location, document_name, title=None, author=None, url=None):
     try:
         with open(f"{file_location}", "r", encoding="utf-8") as file:
@@ -139,65 +132,14 @@ def generate_summary_with_gpt(document_name):
     db = engine["db"]
     llm = engine["llm"]
     
-    # document_names = ["nx-test", "karl-test", "cnet-test"]
-    
-    # text = ""
-    # for doc in document_names:
-    
     results = db.get(where={"content": document_name})
     if len(results["documents"]) == 0:
         print("Unable to find the document in Chroma.")
         return
-
-
-    try:
-        author = results["metadatas"][-1]["author"]
-        title = results["metadatas"][-1]["title"]
-        url = results["metadatas"][-1]["url"]
-    except:
-        print(f"Document '{document_name}' is incomplet : author, title, or url missing.")
-        return
-
                 
     full_context = "\n".join(results["documents"])
         
     prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
-    response = llm.predict(prompt)    
     
-    text = f"""
-    ---
-    layout: ../../layouts/BlogPostLayout.astro
-
-    title: "Titre à changer"
-    description: Description à changer
-
-    imgAlt: rien
-    imgSrc: /misc/kiosque-journaux.png
-
-    kind: Articles
-    author: Thomas
-    draft: false
-    publishedDate: mois à préciser
-    ---
-    
-    # Le récap #1 - Date à changer
-
-    <img src="/misc/kiosque-journaux.png" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
-
-    <br>
-
-    ## {title}
-    <small>Par {author}</small>
-
-    {response}
-
-    [Lire l'article]({url})
-
-    <br>
-    
-    ---
-    
-    """
-    
-    with open(f"nx_ai/recap_data/mai-2025-2.md", "w", encoding="utf-8") as file:
-        file.write(text)
+    response = llm.predict(prompt)
+    return response
