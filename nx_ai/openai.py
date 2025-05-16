@@ -63,6 +63,7 @@ def create_document_with_chroma(file_location, document_name, title=None, author
             ]
 
             db.add_documents(documents)
+            print(f"\n✅ Document {title} has been added to ChromaDB")
             
     except FileNotFoundError:
         print(f"Unable to find the location {file_location} for the file named: {document_name}")

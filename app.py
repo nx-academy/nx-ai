@@ -108,7 +108,13 @@ def generate_recap():
         scrape_article_from_internet(article["url"], article["filename"])
     
         # Create the doc
-        # create_document_with_chroma(location, name, title=title, author=author, url=url)
+        create_document_with_chroma(
+            f"nx_ai/articles_data/{article["filename"]}.txt",
+            article["filename"],
+            title=article["title"],
+            author=article["author"], 
+            url=article["url"]
+        )
     
     # Generate Summary
     
