@@ -20,7 +20,8 @@
 	"customizations": {
 		"vscode": {
 			"extensions": [
-				"ms-python.python"
+				"ms-python.python",
+				"ue.alphabetical-sorter"
 			]
 		}
 	},

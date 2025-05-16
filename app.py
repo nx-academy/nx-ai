@@ -80,5 +80,42 @@ def generate_summary(name):
     generate_summary_with_gpt(name)
 
 
+@cli.command()
+def generate_recap():
+    articles = [
+        {
+            "author": "NX Academy",
+            "filename": "nx",
+            "title": "Le Moine, le Vape Coder, le Debugger & le Learner",
+            "url": "https://nx.academy/articles/profils-ia-developpeur/"
+        },
+        {
+            "author": "Karl Groves",
+            "filename": "karlgroves",
+            "title": "AI is the future of accessibility",
+            "url": "https://karlgroves.com/ai-is-the-future-of-accessibility/"
+        },
+        {
+            "author": "CNET",
+            "filename": "cnet",
+            "title": "US wants judge to break up google force sale of Chrome",
+            "url": "https://www.cnet.com/tech/us-wants-judge-to-break-up-google-force-sale-of-chrome-heres-what-to-know/"
+        }
+    ]
+    
+    for article in articles:
+        # Scrape the article (maybe I can store them locally first)
+        scrape_article_from_internet(article["url"], article["filename"])
+    
+        # Create the doc
+        # create_document_with_chroma(location, name, title=title, author=author, url=url)
+    
+    # Generate Summary
+    
+    # PR the summary on GitHub
+    
+    pass
+
+
 if __name__ == "__main__":
     cli()
