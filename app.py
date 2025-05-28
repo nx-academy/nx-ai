@@ -38,7 +38,7 @@ def create_document(location, name, title, author, url):
 # @click.option("--name", prompt="Document name", help="Enter the document name you want to generate a quiz from")
 # def generate_quiz(name):
 #     """Retrieve a document stored in Chroma, then ask GPT to create a quiz, and store it as a json file once it's done."""
-#     generate_quiz_from_gpt(name)
+    # generate_quiz_from_gpt(name)
 
 
 @cli.command()
@@ -86,14 +86,20 @@ def generate_quiz_beta():
     article_name = "presentation-registry-docker.md"
     
     # Retrieve the content from GitHub by scrapping it and store them locally
-    write_content_from_github(article_url, article_name)
+    # write_content_from_github(article_url, article_name)
     
     # Create the doc
-    create_document_with_chroma(
-        f"nx_ai/courses_data/{article_name}",
-        article_name[:-3]
-    )
+    # create_document_with_chroma(
+    #     f"nx_ai/courses_data/{article_name}",
+    #     article_name[:-3]
+    # )
     
+    # Generate the quiz
+    # generate_quiz_from_gpt(article_name[:-3])
+    
+    # PR it to GitHub
+    print("Ready to PR it!")
+    create_pull_request_on_github(article_name[:-3])
 
 
 @cli.command()
