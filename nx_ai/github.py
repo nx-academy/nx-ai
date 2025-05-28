@@ -14,9 +14,7 @@ def create_course_folder():
         os.makedirs("nx_ai/courses_data")
 
 
-def write_content_from_github(url, document_name):
-    # sample_url = f"{BASE_URL}/docker-et-docker-compose/chapitres/decouverte-docker.md"
-    
+def write_content_from_github(url, document_name):    
     response = requests.get(url)
     
     if response.status_code == 200:

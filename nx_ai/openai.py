@@ -27,7 +27,7 @@ def configure_engine():
     }
 
 
-def create_document_with_chroma(file_location, document_name, title=None, author=None, url=None):
+def create_document_with_chroma(file_location, document_name, title="", author="", url=""):
     try:
         with open(f"{file_location}", "r", encoding="utf-8") as file:
             file = file.read()
@@ -54,9 +54,8 @@ def create_document_with_chroma(file_location, document_name, title=None, author
                 ) 
                 for chunk in chunks
             ]
-
             db.add_documents(documents)
-            print(f"\n✅ Document {title} has been added to ChromaDB")
+            print(f"\n✅ Document {document_name} has been added to ChromaDB")
             
     except FileNotFoundError:
         print(f"Unable to find the location {file_location} for the file named: {document_name}")
@@ -76,14 +75,14 @@ def generate_quiz_from_gpt(document_name):
     full_context = "\n\n".join(results["documents"])
     
     all_questions = []
-    for i in range(5):
+    for i in range(2):
         print(f"📦 Generating questions bloc: {i + 1} / 5...")
 
 
         prompt = f"""
         Tu es un générateur de quiz pédagogique.
 
-        À partir du contenu suivant, génère **1** question à choix multiples. 
+        À partir du contenu suivant, génère **5** question à choix multiples. 
         
         Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
 
