@@ -34,11 +34,11 @@ def create_document(location, name, title, author, url):
     create_document_with_chroma(location, name, title=title, author=author, url=url)
 
 
-@cli.command()
-@click.option("--name", prompt="Document name", help="Enter the document name you want to generate a quiz from")
-def generate_quiz(name):
-    """Retrieve a document stored in Chroma, then ask GPT to create a quiz, and store it as a json file once it's done."""
-    generate_quiz_from_gpt(name)
+# @cli.command()
+# @click.option("--name", prompt="Document name", help="Enter the document name you want to generate a quiz from")
+# def generate_quiz(name):
+#     """Retrieve a document stored in Chroma, then ask GPT to create a quiz, and store it as a json file once it's done."""
+#     generate_quiz_from_gpt(name)
 
 
 @cli.command()
@@ -78,6 +78,22 @@ def scrape_article():
 @click.option("--name", prompt="Document name", help="Enter the document name you want to generate a summary from")
 def generate_summary(name):
     generate_summary_with_gpt(name)
+
+
+@cli.command()
+def generate_quiz_beta():
+    article_url = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/drafts/presentation-registry-docker.md"
+    article_name = "presentation-registry-docker.md"
+    
+    # Retrieve the content from GitHub by scrapping it and store them locally
+    write_content_from_github(article_url, article_name)
+    
+    # Create the doc
+    create_document_with_chroma(
+        f"nx_ai/courses_data/{article_name}",
+        article_name[:-3]
+    )
+    
 
 
 @cli.command()

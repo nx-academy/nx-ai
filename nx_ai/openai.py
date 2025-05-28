@@ -27,7 +27,7 @@ def configure_engine():
     }
 
 
-def create_document_with_chroma(file_location, document_name, title=None, author=None, url=None):
+def create_document_with_chroma(file_location, document_name, title="", author="", url=""):
     try:
         with open(f"{file_location}", "r", encoding="utf-8") as file:
             file = file.read()
@@ -54,9 +54,8 @@ def create_document_with_chroma(file_location, document_name, title=None, author
                 ) 
                 for chunk in chunks
             ]
-
             db.add_documents(documents)
-            print(f"\n✅ Document {title} has been added to ChromaDB")
+            print(f"\n✅ Document {document_name} has been added to ChromaDB")
             
     except FileNotFoundError:
         print(f"Unable to find the location {file_location} for the file named: {document_name}")
