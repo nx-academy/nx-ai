@@ -36,7 +36,7 @@ def generate_quiz_beta():
     
     # PR it to GitHub
     print("Ready to PR it!")
-    create_pull_request_on_github(article_name[:-3])
+    create_pull_request_on_github(article_name[:-3], "quiz")
 
 
 @cli.command()
@@ -57,10 +57,16 @@ def generate_recap_beta():
             "url": "https://karlgroves.com/ai-is-the-future-of-accessibility/"
         },
         {
-            "author": "CNET",
-            "filename": "cnet",
-            "title": "US wants judge to break up google force sale of Chrome",
-            "url": "https://www.cnet.com/tech/us-wants-judge-to-break-up-google-force-sale-of-chrome-heres-what-to-know/"
+            "author": "NX Academy",
+            "filename": "nx-academy-registry-docker",
+            "title": "Qu’est-ce qu’un registry Docker?",
+            "url": "https://nx.academy/drafts/presentation-registry-docker/"
+        },
+        {
+            "author": "NX Academy",
+            "filename": "nx-academy-registry-docker",
+            "title": "Qu’est-ce qu’un registry Docker?",
+            "url": "https://nx.academy/drafts/presentation-registry-docker/"
         }
     ]
     
@@ -78,25 +84,24 @@ def generate_recap_beta():
         )
     
     # Generate and write Summary
-    text = f"""
-    ---
-    layout: ../../layouts/BlogPostLayout.astro
+    text = f"""---
+layout: ../../layouts/BlogPostLayout.astro
 
-    title: "Titre à changer"
-    description: Description à changer
+title: Le Récap #2 - Mai 2025
+description: Description à changer
 
-    imgAlt: rien
-    imgSrc: /misc/kiosque-journaux.png
+imgAlt: rien
+imgSrc: /images/articles/kiosque-journaux.webp
 
-    kind: Articles
-    author: Thomas
-    draft: false
-    publishedDate: mois à préciser
-    ---
+kind: Articles
+author: Thomas
+draft: false
+publishedDate: 05/31/2025
+---
     
-    # Le récap #1 - Date à changer
+    # Le récap #2 - Mai 2025
 
-    <img src="/misc/kiosque-journaux.png" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
+    <img src="/images/articles/kiosque-journaux.webp" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
 
     <br>
     """
@@ -123,7 +128,7 @@ def generate_recap_beta():
         print("Successfully creating the file with all the summary")
     
     # PR the summary on GitHub
-    print("Now ready to open a PR and enjoy life!")
+    create_pull_request_on_github("test", "recap")
 
 
 @cli.command()
