@@ -36,7 +36,7 @@ def generate_quiz_beta():
     
     # PR it to GitHub
     print("Ready to PR it!")
-    create_pull_request_on_github(article_name[:-3])
+    create_pull_request_on_github(article_name[:-3], "quiz")
 
 
 @cli.command()
@@ -45,22 +45,28 @@ def generate_recap_beta():
     # For now, I pass the list of articles here but I should be able to write it from a file.
     articles = [
         {
+            "author": "Bharathvaj Ganesan",
+            "title": "My Experience with Next.js Why It's Bad (And Getting Worse)",
+            "filename": "bad-xp-nextjs",
+            "url": "https://bharathvaj.com/posts/my-experience-with-nextjs/"
+        },
+        {
+            "author": "sean goedecke",
+            "title": "Why are big tech companies so slow?",
+            "filename": "big-tech-slow",
+            "url": "https://www.seangoedecke.com/difficulty-in-big-tech/?ref=sidebar"
+        },
+        {
+            "author": "maddyness",
+            "title": "OpenClassrooms taille encore dans ses effectifs",
+            "filename": "maddyness-oc",
+            "url": "https://www.maddyness.com/2025/05/27/openclassrooms-se-separe-dune-cinquantaine-de-salaries/"
+        },
+        {
             "author": "NX Academy",
-            "filename": "nx",
-            "title": "Le Moine, le Vape Coder, le Debugger & le Learner",
-            "url": "https://nx.academy/articles/profils-ia-developpeur/"
-        },
-        {
-            "author": "Karl Groves",
-            "filename": "karlgroves",
-            "title": "AI is the future of accessibility",
-            "url": "https://karlgroves.com/ai-is-the-future-of-accessibility/"
-        },
-        {
-            "author": "CNET",
-            "filename": "cnet",
-            "title": "US wants judge to break up google force sale of Chrome",
-            "url": "https://www.cnet.com/tech/us-wants-judge-to-break-up-google-force-sale-of-chrome-heres-what-to-know/"
+            "filename": "nx-academy-registry-docker",
+            "title": "Qu’est-ce qu’un registry Docker?",
+            "url": "https://nx.academy/drafts/presentation-registry-docker/"
         }
     ]
     
@@ -78,52 +84,50 @@ def generate_recap_beta():
         )
     
     # Generate and write Summary
-    text = f"""
-    ---
-    layout: ../../layouts/BlogPostLayout.astro
+    text = f"""---
+layout: ../../layouts/BlogPostLayout.astro
 
-    title: "Titre à changer"
-    description: Description à changer
+title: "Le récap #1 - Mai 2025"
+description: Description à changer
 
-    imgAlt: rien
-    imgSrc: /misc/kiosque-journaux.png
+imgAlt: rien
+imgSrc: /images/articles/kiosque-journaux.webp
 
-    kind: Articles
-    author: Thomas
-    draft: false
-    publishedDate: mois à préciser
-    ---
+kind: Articles
+author: Thomas
+draft: false
+publishedDate: 05/31/2025
+---
     
-    # Le récap #1 - Date à changer
+# Le récap #1 - Mai 2025
 
-    <img src="/misc/kiosque-journaux.png" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
+<img src="/images/articles/kiosque-journaux.webp" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
 
-    <br>
-    """
+<br>
+"""
     for article in articles:
         print("Asking GPT API to make the summary")
         llm_summary = generate_summary_with_gpt(article["filename"])
         
-        text += f"""
-        ## {article["title"]}
-        <small>{article["author"]}</small>
+        text += f"""## {article["title"]}
+<small>{article["author"]}</small>
         
-        {llm_summary}
+{llm_summary}
         
-        [Lire l'article]({article["url"]})
+[Lire l'article]({article["url"]})
         
-        <br>
+<br>
         
-        ---
-        """
+---
+"""
         
         print(f"""Successfully creating summary for article: {article["filename"]}""")
-    with open(f"nx_ai/recap_data/test.md", "w", encoding="utf-8") as file:
+    with open(f"nx_ai/recap_data/le-recap-mai-2025.md", "w", encoding="utf-8") as file:
         file.write(text)
         print("Successfully creating the file with all the summary")
     
     # PR the summary on GitHub
-    print("Now ready to open a PR and enjoy life!")
+    create_pull_request_on_github("le-recap-mai-2025", "recap")
 
 
 @cli.command()
