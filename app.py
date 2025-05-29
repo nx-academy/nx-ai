@@ -45,22 +45,22 @@ def generate_recap_beta():
     # For now, I pass the list of articles here but I should be able to write it from a file.
     articles = [
         {
-            "author": "NX Academy",
-            "filename": "nx",
-            "title": "Le Moine, le Vape Coder, le Debugger & le Learner",
-            "url": "https://nx.academy/articles/profils-ia-developpeur/"
+            "author": "Bharathvaj Ganesan",
+            "title": "My Experience with Next.js Why It's Bad (And Getting Worse)",
+            "filename": "bad-xp-nextjs",
+            "url": "https://bharathvaj.com/posts/my-experience-with-nextjs/"
         },
         {
-            "author": "Karl Groves",
-            "filename": "karlgroves",
-            "title": "AI is the future of accessibility",
-            "url": "https://karlgroves.com/ai-is-the-future-of-accessibility/"
+            "author": "sean goedecke",
+            "title": "Why are big tech companies so slow?",
+            "filename": "big-tech-slow",
+            "url": "https://www.seangoedecke.com/difficulty-in-big-tech/?ref=sidebar"
         },
         {
-            "author": "NX Academy",
-            "filename": "nx-academy-registry-docker",
-            "title": "Qu’est-ce qu’un registry Docker?",
-            "url": "https://nx.academy/drafts/presentation-registry-docker/"
+            "author": "maddyness",
+            "title": "OpenClassrooms taille encore dans ses effectifs",
+            "filename": "maddyness-oc",
+            "url": "https://www.maddyness.com/2025/05/27/openclassrooms-se-separe-dune-cinquantaine-de-salaries/"
         },
         {
             "author": "NX Academy",
@@ -87,7 +87,7 @@ def generate_recap_beta():
     text = f"""---
 layout: ../../layouts/BlogPostLayout.astro
 
-title: Le Récap #2 - Mai 2025
+title: "Le récap #1 - Mai 2025"
 description: Description à changer
 
 imgAlt: rien
@@ -99,36 +99,35 @@ draft: false
 publishedDate: 05/31/2025
 ---
     
-    # Le récap #2 - Mai 2025
+# Le récap #1 - Mai 2025
 
-    <img src="/images/articles/kiosque-journaux.webp" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
+<img src="/images/articles/kiosque-journaux.webp" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
 
-    <br>
-    """
+<br>
+"""
     for article in articles:
         print("Asking GPT API to make the summary")
         llm_summary = generate_summary_with_gpt(article["filename"])
         
-        text += f"""
-        ## {article["title"]}
-        <small>{article["author"]}</small>
+        text += f"""## {article["title"]}
+<small>{article["author"]}</small>
         
-        {llm_summary}
+{llm_summary}
         
-        [Lire l'article]({article["url"]})
+[Lire l'article]({article["url"]})
         
-        <br>
+<br>
         
-        ---
-        """
+---
+"""
         
         print(f"""Successfully creating summary for article: {article["filename"]}""")
-    with open(f"nx_ai/recap_data/test.md", "w", encoding="utf-8") as file:
+    with open(f"nx_ai/recap_data/le-recap-mai-2025.md", "w", encoding="utf-8") as file:
         file.write(text)
         print("Successfully creating the file with all the summary")
     
     # PR the summary on GitHub
-    create_pull_request_on_github("test", "recap")
+    create_pull_request_on_github("le-recap-mai-2025", "recap")
 
 
 @cli.command()
