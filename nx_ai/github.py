@@ -2,7 +2,7 @@ import requests
 import os
 from github import Github, Auth
 
-from nx_ai.utils import clean_md_for_rag
+from nx_ai.utils.clean_md import clean_md_for_rag
 from nx_ai.config import get_config
 
 
