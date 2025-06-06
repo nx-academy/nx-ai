@@ -3,6 +3,11 @@ import click
 from nx_ai.openai import configure_engine
 
 
+def get_db():
+    engine = configure_engine()
+    return engine["db"]
+
+
 @click.group()
 def chroma_group():
     """Set of commands related to ChromaDB"""
@@ -10,22 +15,20 @@ def chroma_group():
 
 
 @chroma_group.command()
-def list_documents():
-    """List of the documents stored locally"""
-    engine = configure_engine()
-    db = engine["db"]
+def list_chunks():
+    """List all chunks stored locally"""
+    db = get_db()
     
-    documents = db.get()
-    for i, doc_id in enumerate(documents["ids"]):
-        print(f"{i + 1}. ID: {doc_id} - Metadata: {documents["metadatas"][i]}")
+    chunks = db.get()
+    for i, chunk_id in enumerate(chunks["ids"]):
+        print(f"{i + 1}. ID: {chunk_id} - Metadata: {chunks["metadatas"][i]}")
 
 
 @chroma_group.command()
 @click.argument("id")
 def read_chunk(id):
-    """Retrieve if exists a chunk with the id ${id}"""
-    engine = configure_engine()
-    db = engine["db"]
+    """Read a single chunk by its ID"""
+    db = get_db()
     
     chunk = db.get(ids=[id])
     print(f"Chunk: {chunk['documents'][0]}")
@@ -35,9 +38,8 @@ def read_chunk(id):
 @chroma_group.command()
 @click.argument("document_name")
 def read_doc(document_name):
-    """Retrieve a set of chunks, a document in other words"""
-    engine = configure_engine()
-    db = engine["db"]
+    """Read all chunks associated with a document name"""
+    db = get_db()
     
     document = db.get(where={"content": document_name})
     if len(document["documents"]) == 0:
@@ -51,9 +53,8 @@ def read_doc(document_name):
 @chroma_group.command()
 @click.argument("id")
 def delete_chunk(id):
-    """Retrieve if exists a chunk with the id ${id}"""
-    engine = configure_engine()
-    db = engine["db"]
+    """Delete a single chunk by its ID"""
+    db = get_db()
     
     db.delete(ids=[id])
     print(f"Chunk with id {id} deleted.")
@@ -62,9 +63,8 @@ def delete_chunk(id):
 @chroma_group.command()
 @click.argument("document_name")
 def delete_document(document_name):
-    """Retrieve if exists a set of chunk (a doc) with the name ${document_name}"""
-    engine = configure_engine()
-    db = engine["db"]
+    """Delete all chunks associated with a document name"""
+    db = get_db()   
     
     db.delete(where={"content": document_name})
     print(f"Document with name {document_name} deleted.")
