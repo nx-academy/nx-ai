@@ -30,3 +30,19 @@ def read_chunk(id):
     chunk = db.get(ids=[id])
     print(f"Chunk: {chunk['documents'][0]}")
     print(f"Metadata: {chunk['metadatas'][0]}")
+
+
+@chroma_group.command()
+@click.argument("document_name")
+def read_doc(document_name):
+    """Retrieve a set of chunks, a document in other words"""
+    engine = configure_engine()
+    db = engine["db"]
+    
+    document = db.get(where={"content": document_name})
+    if len(document["documents"]) == 0:
+        print("Unable to find the document in Chroma.")
+        return
+    
+    full_context = "\n\n".join(document["documents"])
+    print(full_context)
