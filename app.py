@@ -8,6 +8,7 @@ from nx_ai.openai import (
     generate_summary_with_gpt)
 from nx_ai.bot_test import run_bot
 from nx_ai.scraper import scrape_article_from_internet
+from nx_ai.chroma_cli import chroma_group
 
 
 @click.group()
@@ -129,7 +130,6 @@ publishedDate: 05/31/2025
     # PR the summary on GitHub
     create_pull_request_on_github("le-recap-mai-2025", "recap")
 
-
 @cli.command()
 @click.option("--url", prompt="GitHub URL", help="Enter the full GitHub URL you'd like to fetch. Must be a raw format.")
 @click.option("--name", prompt="Document name", help="The name of the document you'd like to create locally")
@@ -194,6 +194,9 @@ def scrape_article():
 @click.option("--name", prompt="Document name", help="Enter the document name you want to generate a summary from")
 def generate_summary(name):
     generate_summary_with_gpt(name)
+
+
+cli.add_command(chroma_group, name="chroma")
 
 
 if __name__ == "__main__":
