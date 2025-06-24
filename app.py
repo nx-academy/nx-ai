@@ -173,17 +173,9 @@ def run_discord_bot():
 def scrape_article():
     articles = [
         {
-            "url": "https://nx.academy/articles/profils-ia-developpeur/",
-            "filename": "01-nx.txt"
-        },
-        {
-            "url": "https://karlgroves.com/ai-is-the-future-of-accessibility/",
-            "filename": "02-karlgroves.txt"
-        },
-        {
-            "url": "https://www.cnet.com/tech/us-wants-judge-to-break-up-google-force-sale-of-chrome-heres-what-to-know/",
-            "filename": "03-cnet.txt"
-        },
+            "url": "https://www.reuters.com/technology/artificial-intelligence/openai-considers-taking-google-with-browser-information-reports-2024-11-21/",
+            "filename": "reuteur-test.txt"
+        }
     ]
     
     for article in articles:

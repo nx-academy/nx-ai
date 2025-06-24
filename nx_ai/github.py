@@ -32,9 +32,8 @@ def create_pull_request_on_github(document_name, type):
     sb = repo.get_branch("main")
     
     if type == "quiz":
-        repo.create_git_ref(ref=f"refs/heads/{document_name}-quiz", sha=sb.commit.sha)
+        repo.create_git_ref(ref=f"refs/heads/ai_{document_name}-quiz", sha=sb.commit.sha)
     else:
-        pass
         repo.create_git_ref(ref=f"refs/heads/ai_{document_name}-recap", sha=sb.commit.sha)
         
     
