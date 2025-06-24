@@ -123,12 +123,12 @@ publishedDate: 06/27/2025
 """
         
         print(f"""Successfully creating summary for article: {article["filename"]}""")
-    with open(f"nx_ai/recap_data/le-recap-mai-2025.md", "w", encoding="utf-8") as file:
+    with open(f"nx_ai/recap_data/le-recap-june-2025.md", "w", encoding="utf-8") as file:
         file.write(text)
         print("Successfully creating the file with all the summary")
     
     # PR the summary on GitHub
-    create_pull_request_on_github("le-recap-mai-2025", "recap")
+    create_pull_request_on_github("le-recap-june-2025", "recap")
 
 @cli.command()
 @click.option("--url", prompt="GitHub URL", help="Enter the full GitHub URL you'd like to fetch. Must be a raw format.")
@@ -159,9 +159,10 @@ def create_document(location, name, title, author, url):
 
 @cli.command()
 @click.option("--name", prompt="Document name", help="Enter the name of the document you want to create a Pull Request on GitHub from.")
-def create_pull_request(name):
+@click.option("--type", prompt="Document type (Recap, quiz)", help="Enter the type of the document")
+def create_pull_request(name, type):
     """Retrieve the generated quiz json file, connect to NX GitHub org, commit the file, and create a PR on main"""
-    create_pull_request_on_github(name)
+    create_pull_request_on_github(name, type)
 
 
 @cli.command()

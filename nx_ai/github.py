@@ -37,7 +37,7 @@ def create_pull_request_on_github(document_name, type):
         repo.create_git_ref(ref=f"refs/heads/ai_{document_name}-recap", sha=sb.commit.sha)
         
     
-    print(f"Successfully created branch {document_name} quiz")
+    print(f"Successfully created branch ai_{document_name}")
     
     if type == "quiz":
         try:
