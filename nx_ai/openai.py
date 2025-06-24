@@ -138,7 +138,7 @@ def generate_summary_with_gpt(document_name):
                 
     full_context = "\n".join(results["documents"])
         
-    prompt = f"Peux tu résumer cet article en français en 5 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
+    prompt = f"Peux tu résumer cet article en français en 3 lignes claires et synthétiques comme une fiche de veille pour développeurs :\n\n{full_context}"
     
     response = llm.predict(prompt)
     return response

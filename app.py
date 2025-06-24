@@ -46,28 +46,28 @@ def generate_recap_beta():
     # For now, I pass the list of articles here but I should be able to write it from a file.
     articles = [
         {
-            "author": "Bharathvaj Ganesan",
-            "title": "My Experience with Next.js Why It's Bad (And Getting Worse)",
-            "filename": "bad-xp-nextjs",
-            "url": "https://bharathvaj.com/posts/my-experience-with-nextjs/"
+            "author": "Alexander Opalic",
+            "title": "No Server, No Database: Smarter Related Posts in Astro with `transformers.js`",
+            "filename": "alexop.dev-astro-transformers",
+            "url": "https://alexop.dev/posts/semantic-related-posts-astro-transformersjs/"
         },
         {
-            "author": "sean goedecke",
-            "title": "Why are big tech companies so slow?",
-            "filename": "big-tech-slow",
-            "url": "https://www.seangoedecke.com/difficulty-in-big-tech/?ref=sidebar"
+            "author": "WaspDev Blog",
+            "title": "JavaScript's upcoming Temporal API and what problems it will solve",
+            "filename": "temporal-api",
+            "url": "https://waspdev.com/articles/2025-05-24/temporal-api"
         },
         {
-            "author": "maddyness",
-            "title": "OpenClassrooms taille encore dans ses effectifs",
-            "filename": "maddyness-oc",
-            "url": "https://www.maddyness.com/2025/05/27/openclassrooms-se-separe-dune-cinquantaine-de-salaries/"
+            "author": "Courrier International",
+            "title": "Enquête sur la chute de Builder.ai, l’entreprise d’IA qui a menti sur toute la ligne",
+            "filename": "courrierinternational-builder-ai",
+            "url": "https://www.courrierinternational.com/article/faillite-enquete-sur-la-chute-de-builder-ai-l-entreprise-d-ia-qui-a-menti-sur-toute-la-ligne_231696"
         },
         {
-            "author": "NX Academy",
-            "filename": "nx-academy-registry-docker",
-            "title": "Qu’est-ce qu’un registry Docker?",
-            "url": "https://nx.academy/drafts/presentation-registry-docker/"
+            "author": "Reuters",
+            "filename": "Reuters-openai",
+            "title": "OpenAI considers taking on Google with browser, the Information reports",
+            "url": "https://www.reuters.com/technology/artificial-intelligence/openai-considers-taking-google-with-browser-information-reports-2024-11-21"
         }
     ]
     
@@ -88,21 +88,21 @@ def generate_recap_beta():
     text = f"""---
 layout: ../../layouts/BlogPostLayout.astro
 
-title: "Le récap #1 - Mai 2025"
+title: "Le récap #3 - June 2025"
 description: Description à changer
 
-imgAlt: rien
+imgAlt: Un vendeur de journaux dans un kiosque parisien, pixel art
 imgSrc: /images/articles/kiosque-journaux.webp
 
 kind: Articles
 author: Thomas
 draft: false
-publishedDate: 05/31/2025
+publishedDate: 06/27/2025
 ---
     
-# Le récap #1 - Mai 2025
+# Le récap #3 - June 2025
 
-<img src="/images/articles/kiosque-journaux.webp" alt="" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
+<img src="/images/articles/kiosque-journaux.webp" alt="Un vendeur de journaux dans un kiosque parisien, pixel art" style="aspect-ratio: 1792 / 1024; object-fit: cover; width: 100%; display: block; object-position: top" />
 
 <br>
 """
