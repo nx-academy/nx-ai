@@ -28,7 +28,7 @@ def say_hello():
 @openai_group.command()
 def summarize_article():
     """Send a url to GPT and ask it to summarize it in 3 lines"""
-    print("Sendin the request to GPT")
+    print("Sending the request to GPT")
     response = client.responses.create(
         model=MODEL,
         tools=[{
@@ -40,3 +40,43 @@ def summarize_article():
     print("====")
     print(response.output[1].content[0].text)
     print("====")
+
+
+@openai_group.command()
+def generate_quiz():
+    """Generate a quiz in JSON format"""
+    print("Sending the request to GPT")
+    response = client.responses.create(
+        model=MODEL,
+        tools=[{
+            "type": "web_search_preview"
+        }],
+        input="""
+        Tu es un générateur de quiz pédagogique.
+
+        À partir de l'URL suivante, génère **10** question à choix multiples. 
+        
+        Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
+
+        Garde le même ton que l'auteur du texte pour la réalisation du quiz.
+
+        Réponds au format JSON comme ceci :
+
+        {{
+        "data": [
+            {{
+            "question": "...",
+            "options": ["...", "...", "...", "..."],
+            "answer": "...",
+            "explanation": "..."
+            }}
+        ]
+        }}
+
+        Voici l'URL où trouver le contenu : https://nx.academy/fiches/presentation-registry-docker/
+        """
+    )
+    
+    print("=====")
+    print(response.output[1].content[0].text)
+    print("=====")
