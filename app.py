@@ -8,7 +8,9 @@ from nx_ai.openai import (
     generate_summary_with_gpt)
 from nx_ai.bot_test import run_bot
 from nx_ai.scraper import scrape_article_from_internet
+
 from nx_ai.chroma_cli import chroma_group
+from nx_ai.openai_cli import openai_group
 
 
 @click.group()
@@ -190,6 +192,7 @@ def generate_summary(name):
 
 
 cli.add_command(chroma_group, name="chroma")
+cli.add_command(openai_group, name="openai")
 
 
 if __name__ == "__main__":
