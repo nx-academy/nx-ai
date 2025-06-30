@@ -20,8 +20,8 @@ def cli():
 def generate_quiz_beta():
     """Generate a quiz with GPT from a raw markdown file and PR it to Astro repo"""
     # For now, I pass the url and the file name in raw data. I'll see later how to retrieve it from a file, command, and/or discord
-    article_url = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/drafts/presentation-registry-docker.md"
-    article_name = "presentation-registry-docker.md"
+    article_url = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/drafts/optimisation-images-docker.md"
+    article_name = "optimisation-images-docker.md"
     
     # Retrieve the content from GitHub by scrapping it and store them locally
     write_content_from_github(article_url, article_name)
