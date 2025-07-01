@@ -26,6 +26,31 @@ def say_hello():
 
 
 @openai_group.command()
+def clean_article():
+    """"""
+    response = client.responses.create(
+        model=MODEL,
+        tools=[{
+            "type": "web_search_preview"
+        }],
+        input="""
+            Peux-tu me faire une extraction propre de cette page web en français ? J'aimerais notamment que tu extrais :
+            - Tout le texte de la page (pas un résumé)
+            - L'auteur de la page
+            - Le titre traduit en français
+            - La date de publication
+            
+            Voici l'URL : https://nx.academy/fiches/presentation-registry-docker/
+        """
+    )
+    
+    print("====")
+    print(response)
+    print("====")
+
+
+
+@openai_group.command()
 def summarize_article():
     """Send a url to GPT and ask it to summarize it in 3 lines"""
     print("Sending the request to GPT")
@@ -60,8 +85,8 @@ def generate_quiz():
 
         Garde le même ton que l'auteur du texte pour la réalisation du quiz.
 
-        Réponds au format JSON comme ceci :
-
+        Ne formate pas la réponse dans un bloc Markdown. Ne mets pas de balises ```json ou ```.
+        Réponds uniquement avec du JSON brut comme ci-dessous :
         {{
         "data": [
             {{
