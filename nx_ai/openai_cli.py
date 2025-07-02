@@ -1,6 +1,8 @@
 import click
 from openai import OpenAI
 
+from nx_ai.gpt_models import GPTResponse, GPTCleanedArticle
+
 
 client = OpenAI()
 
@@ -21,13 +23,14 @@ def say_hello():
         model=MODEL,
         input="Hello ! This is a test"
     )
+    gpt_response = GPTResponse(response)
     
-    print(response.output[0].content[0].text)
+    return gpt_response
 
 
 @openai_group.command()
 def clean_article():
-    """"""
+    """Browse an article from the Web directly with GPT, clean it, and extract info from it"""
     response = client.responses.create(
         model=MODEL,
         tools=[{
@@ -43,9 +46,10 @@ def clean_article():
             Voici l'URL : https://nx.academy/fiches/presentation-registry-docker/
         """
     )
+    gpt_cleaned_article = GPTCleanedArticle(response)
     
     print("====")
-    print(response)
+    print(gpt_cleaned_article.text)
     print("====")
 
 
