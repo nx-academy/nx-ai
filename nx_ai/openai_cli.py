@@ -21,7 +21,7 @@ def say_hello():
     """Say hello from openai group"""
     response = client.responses.create(
         model=MODEL,
-        input="Hello ! This is a test"
+        input="Hello, World!"
     )
     gpt_response = GPTResponse(response)
     
@@ -104,6 +104,4 @@ def generate_quiz():
     )
     gpt_generated_quiz = GPTGeneratedQuiz(response)
     
-    print("=====")
-    print(gpt_generated_quiz)
-    print("=====")
+    return gpt_generated_quiz
