@@ -7,7 +7,7 @@ from nx_ai.gpt_models import (GPTResponse, GPTCleanedArticle, GPTSummarizedArtic
 client = OpenAI()
 
 
-MODEL = "gpt-4o-mini"
+MODEL = "gpt-4.1-mini"
 
 
 @click.group()
@@ -51,7 +51,6 @@ def clean_article():
     return gpt_cleaned_article
 
 
-
 @openai_group.command()
 def summarize_article():
     """Send a url to GPT and ask it to summarize it in 3 lines"""
@@ -80,14 +79,13 @@ def generate_quiz():
         input="""
         Tu es un générateur de quiz pédagogique.
 
-        À partir de l'URL suivante, génère **1** question à choix multiples. 
+        À partir de l'URL suivante, génère **2** questions à choix multiples. 
         
         Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
 
         Garde le même ton que l'auteur du texte pour la réalisation du quiz.
 
-        Ne formate pas la réponse dans un bloc Markdown. Ne mets pas de balises ```json ou ```.
-        Réponds uniquement avec du JSON brut comme ci-dessous :
+        Ne formate pas la réponse dans un bloc Markdown. Ne mets pas de balises ```json ou ```. Réponds uniquement avec du JSON brut comme ci-dessous :
         {{
         "data": [
             {{
@@ -103,5 +101,9 @@ def generate_quiz():
         """
     )
     gpt_generated_quiz = GPTGeneratedQuiz(response)
+    
+    print("====")
+    print(gpt_generated_quiz.text)
+    print("====")
     
     return gpt_generated_quiz
