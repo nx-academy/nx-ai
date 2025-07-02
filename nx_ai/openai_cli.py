@@ -1,7 +1,7 @@
 import click
 from openai import OpenAI
 
-from nx_ai.gpt_models import GPTResponse, GPTCleanedArticle
+from nx_ai.gpt_models import (GPTResponse, GPTCleanedArticle, GPTSummarizedArticle, GPTGeneratedQuiz)
 
 
 client = OpenAI()
@@ -48,9 +48,7 @@ def clean_article():
     )
     gpt_cleaned_article = GPTCleanedArticle(response)
     
-    print("====")
-    print(gpt_cleaned_article.text)
-    print("====")
+    return gpt_cleaned_article
 
 
 
@@ -65,10 +63,9 @@ def summarize_article():
         }],
         input="Peux-tu me résumer cet article en français en 3 lignes claires et synthétiques comme une fiche de veille pour développeurs ? https://nx.academy/fiches/presentation-registry-docker/"
     )
+    gpt_summarized_article = GPTSummarizedArticle(response)
     
-    print("====")
-    print(response.output[1].content[0].text)
-    print("====")
+    return gpt_summarized_article
 
 
 @openai_group.command()
@@ -83,7 +80,7 @@ def generate_quiz():
         input="""
         Tu es un générateur de quiz pédagogique.
 
-        À partir de l'URL suivante, génère **10** question à choix multiples. 
+        À partir de l'URL suivante, génère **1** question à choix multiples. 
         
         Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
 
@@ -105,7 +102,8 @@ def generate_quiz():
         Voici l'URL où trouver le contenu : https://nx.academy/fiches/presentation-registry-docker/
         """
     )
+    gpt_generated_quiz = GPTGeneratedQuiz(response)
     
     print("=====")
-    print(response.output[1].content[0].text)
+    print(gpt_generated_quiz)
     print("=====")
