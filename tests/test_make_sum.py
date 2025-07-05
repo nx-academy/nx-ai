@@ -1,8 +1,10 @@
 import sys
 import os
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
+# Fix to make test work with import path
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from nx_ai.utils.make_sum import make_sum
+
 
 def test_make_sum():
     assert make_sum(2, 2) == 4
