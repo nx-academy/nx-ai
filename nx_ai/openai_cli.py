@@ -45,7 +45,7 @@ def clean_article():
         {{
             "data": {{
                 "author": "...",
-                "titre_fr": "...",
+                "title_fr": "...",
                 "published_date": "...",
                 "article_content": "..."
             }}

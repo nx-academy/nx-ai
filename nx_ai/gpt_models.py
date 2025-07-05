@@ -26,7 +26,7 @@ class GPTCleanedArticle:
             self.data = self._parse_json(self.text)
             self.author = self.data["author"]
             self.title_fr = self.data["title_fr"]
-            self.published_date = self.data["published_data"]
+            self.published_date = self.data["published_date"]
             self.content = self.data["article_content"]
         except (AttributeError, IndexError) as e:
             raise ValueError(f"Error when cleaning data from response: {e}")
