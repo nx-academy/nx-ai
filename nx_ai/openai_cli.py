@@ -56,10 +56,6 @@ def clean_article():
     )
     gpt_cleaned_article = GPTCleanedArticle(response)
     
-    print("=====")
-    print(gpt_cleaned_article.text)
-    print("=====")
-    
     return gpt_cleaned_article
 
 
@@ -113,9 +109,5 @@ def generate_quiz():
         """
     )
     gpt_generated_quiz = GPTGeneratedQuiz(response)
-    
-    print("====")
-    print(gpt_generated_quiz.text)
-    print("====")
     
     return gpt_generated_quiz
