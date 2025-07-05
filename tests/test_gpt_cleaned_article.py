@@ -4,6 +4,8 @@ import json
 
 # Fix to make test work with import path
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from nx_ai.gpt_models import GPTCleanedArticle
+from tests.test_gpt_quiz import FakeResponse
 
 
 def test_extracting_article_metadata():
@@ -16,5 +18,13 @@ def test_extracting_article_metadata():
         }
     }
     
+    # Fake GPT Response Object
+    response = FakeResponse(json.dumps(raw_json))
+    cleaned_article = GPTCleanedArticle(response)
+    
+    print("====")
+    print(cleaned_article.data)
+    print("====")
+    
+    
     assert True == True
-    assert True != False
