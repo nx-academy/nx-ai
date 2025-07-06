@@ -37,13 +37,21 @@ def clean_article():
             "type": "web_search_preview"
         }],
         input="""
-            Peux-tu me faire une extraction propre de cette page web en français ? J'aimerais notamment que tu extrais :
-            - Tout le texte de la page (pas un résumé)
-            - L'auteur de la page
-            - Le titre traduit en français
-            - La date de publication
+        Tu es un assistant qui extrait des données à partir d'articles.
+        
+        A partir de l'URL suivante, réalise une extraction propre de cette page web en français avec les informations suivantes : tout le texte de la page (pas un résumé), l'auteur de la page, le titre traduit en français, la date de publication.
+        
+        Ne formatte pas la réponse dans un block Markdown. Ne mets pas de balises ```json ou ```. Réponds uniquement avec du JSON brut comme ci-dessous :
+        {{
+            "data": {{
+                "author": "...",
+                "title_fr": "...",
+                "published_date": "...",
+                "article_content": "..."
+            }}
+        }}
             
-            Voici l'URL : https://nx.academy/fiches/presentation-registry-docker/
+        Voici l'URL : https://nx.academy/fiches/presentation-registry-docker/
         """
     )
     gpt_cleaned_article = GPTCleanedArticle(response)
@@ -101,9 +109,5 @@ def generate_quiz():
         """
     )
     gpt_generated_quiz = GPTGeneratedQuiz(response)
-    
-    print("====")
-    print(gpt_generated_quiz.text)
-    print("====")
     
     return gpt_generated_quiz
