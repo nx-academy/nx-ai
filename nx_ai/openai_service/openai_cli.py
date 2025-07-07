@@ -11,8 +11,8 @@ def openai_group():
 @openai_group.command()
 def say_hello():
     """Send Hello World to OpenAI"""
-    response = say_hello_to_gpt()
+    gpt_response = say_hello_to_gpt()
     
     print("====")
-    print(response)
+    print(gpt_response)
     print("====")

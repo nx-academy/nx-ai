@@ -1,5 +1,7 @@
 from openai import OpenAI
 
+from nx_ai.openai_service.gpt_models import GPTResponse
+
 
 client = OpenAI()
 
@@ -9,5 +11,6 @@ def say_hello_to_gpt():
         model="gpt-4o-mini",
         input="Hello, World!"
     )
+    gpt_response = GPTResponse(response)
     
-    return response
+    return gpt_response
