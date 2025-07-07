@@ -1,3 +1,4 @@
+import json
 from openai import OpenAI
 
 from nx_ai.openai_service.gpt_models import GPTResponse, FakeResponse, GPTSummarizedArticle
@@ -22,7 +23,24 @@ def say_hello_to_gpt(simulate):
     return gpt_response
 
 
-def summarize_article_with_gpt(url):
+def summarize_article_with_gpt(url, simulate):
+    if simulate:
+        raw_json = {
+            "data": {
+                "author": "nx.academy", 
+                "title_fr": "Présentation du registre Docker", 
+                "article_summary": "L'article explique le rôle du registre Docker, un service de stockage et de distribution d'images Docker. Il détaille les types de registres (Docker Hub, registres privés) et leur utilisation dans les workflows DevOps. Enfin, il aborde la sécurisation et la gestion des images pour optimiser les déploiements containerisés."
+            }
+        }
+           
+        cleaned_article = GPTSummarizedArticle(FakeResponse(json.dumps(raw_json)))
+        
+        print("====")
+        print(cleaned_article)
+        print("====")
+        
+        return
+    
     response = client.responses.create(
         model="gpt-4.1-mini",
         input=f"""
