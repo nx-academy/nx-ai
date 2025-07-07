@@ -1,6 +1,6 @@
 import click
 
-from nx_ai.openai_service.openai_api import say_hello_to_gpt
+from nx_ai.openai_service.openai_api import say_hello_to_gpt, summarize_article_with_gpt
  
 
 @click.group()
@@ -16,3 +16,15 @@ def say_hello(simulate):
     gpt_response = say_hello_to_gpt(simulate)
     
     print(gpt_response)
+
+
+@openai_group.command()
+def summarize_article():
+    """Generate a summary for an article and extract also the author and the title"""
+    article_url = "https://nx.academy/fiches/presentation-registry-docker/"
+    
+    gpt_summarized_article = summarize_article_with_gpt(article_url)
+    
+    print("====")
+    print(gpt_summarized_article.data)
+    print("====")

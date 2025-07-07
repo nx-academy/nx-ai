@@ -1,0 +1,7 @@
+{
+    "data": {
+        "author": "nx.academy", 
+        "title_fr": "Présentation du registre Docker", 
+        "article_summary": "L'article explique le rôle du registre Docker, un service de stockage et de distribution d'images Docker. Il détaille les types de registres (Docker Hub, registres privés) et leur utilisation dans les workflows DevOps. Enfin, il aborde la sécurisation et la gestion des images pour optimiser les déploiements containerisés."
+    }
+}
