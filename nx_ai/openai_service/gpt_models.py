@@ -1,6 +1,18 @@
-import json
+# Mock class for testing / simulation purposes
+class FakeResponse:
+    def __init__(self, text: str):
+        self.output = [FakeOutput(text)]
+    
+class FakeOutput:
+    def __init__(self, text: str):
+        self.content = [FakeText(text)]
+    
+class FakeText:
+    def __init__(self, text: str):
+        self.text = text
 
 
+# Real classes use for data modeling
 class GPTResponse:
     def __init__(self, raw_response):
         self.raw = raw_response

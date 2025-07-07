@@ -9,10 +9,10 @@ def openai_group():
 
 
 @openai_group.command()
-def say_hello():
+@click.option("--simulate", is_flag=True, 
+              help="Simulate the API call by loading JSON file")
+def say_hello(simulate):
     """Send Hello World to OpenAI"""
-    gpt_response = say_hello_to_gpt()
+    gpt_response = say_hello_to_gpt(simulate)
     
-    print("====")
     print(gpt_response)
-    print("====")
