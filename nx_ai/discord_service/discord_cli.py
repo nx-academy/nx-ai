@@ -1,5 +1,7 @@
 import click
 
+from nx_ai.discord_service.discord_api import run_discord_bot
+
 
 @click.group()
 def discord_group():
@@ -9,4 +11,5 @@ def discord_group():
 
 @discord_group.command()
 def run_bot():
-    print("Ok, let's go!")
+    """Run a basic discord bot (for now...)"""
+    run_discord_bot()
