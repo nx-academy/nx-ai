@@ -9,8 +9,8 @@ from nx_ai.openai_service.gpt_models import GPTCleanedArticle, FakeResponse
 def test_gpt_cleaned_article():
     with open("mock/cleaned_article.txt", "r") as f:
         mock = f.read()
-        mock_response = GPTCleanedArticle(FakeResponse(mock, use_tool=True))
+        gpt_cleaned_article = GPTCleanedArticle(FakeResponse(mock, use_tool=True))
         
-        assert len(mock_response.text) > 100
-        assert "Les images Docker sont nommées et taguées" in mock_response.text
-        assert "Il est également possible d'héberger son propre" in mock_response.text
+        assert len(gpt_cleaned_article.text) > 100
+        assert "Les images Docker sont nommées et taguées" in gpt_cleaned_article.text
+        assert "Il est également possible d'héberger son propre" in gpt_cleaned_article.text
