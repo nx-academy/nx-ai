@@ -10,4 +10,3 @@ def test_make_sum():
     assert make_sum(2, 2) == 4
     assert make_sum(2, 2) != 6
     assert make_sum(0, 0) == 0 # Or la tête à toto
-    
