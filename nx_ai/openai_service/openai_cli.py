@@ -1,6 +1,6 @@
 import click
 
-from nx_ai.openai_service.openai_api import say_hello_to_gpt, summarize_article_with_gpt
+from nx_ai.openai_service.openai_api import say_hello_to_gpt, summarize_article_with_gpt, clean_article_with_gpt
  
 
 @click.group()
@@ -19,14 +19,21 @@ def say_hello(simulate):
 
 
 @openai_group.command()
+def clean_article():
+    """Browse an web article with GPT tool and keep only the text contents"""
+    article_url = "https://nx.academy/fiches/presentation-registry-docker/"
+    
+    clean_article_with_gpt(article_url)
+
+
+@openai_group.command()
 @click.option("--simulate", is_flag=True,
               help="Simulate the API call by loading a local JSON file")
 def summarize_article(simulate):
     """Generate a summary for an article and extract also the author and the title"""
+    # For now, I keep the article URL here. I'll see later where to put it.
     article_url = "https://nx.academy/fiches/presentation-registry-docker/"
     
     gpt_summarized_article = summarize_article_with_gpt(article_url, simulate)
     
-    print("====")
     print(gpt_summarized_article.data)
-    print("====")

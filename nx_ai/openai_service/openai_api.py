@@ -23,16 +23,42 @@ def say_hello_to_gpt(simulate):
     return gpt_response
 
 
+def clean_article_with_gpt(url):
+    response = client.responses.create(
+        model="gpt-4o-mini",
+        tools=[{
+            "type": "web_search_preview"
+        }],
+        input=f"""
+        Tu es un assistant qui extrait le contenu d'articles sur le web.
+        
+        A partir de l'URL suivante, réalise une extraction propre en français de cette page web. Il ne faut pas un résumé mais bien l'integralité du contenu de l'article.
+        
+        Retourne uniquement le contenu de l'article et rien d'autre.
+        
+        Voici l'URL: {url}
+        """
+    )
+    
+    print("====")
+    print(response)
+    print("====")
+
+
+
 def summarize_article_with_gpt(url, simulate):
     if simulate:
         with open("mock/summarized_article.json", "r") as f:
             mock = json.load(f)
-            cleaned_article = GPTSummarizedArticle(FakeResponse(json.dumps(mock)))
+            cleaned_article = GPTSummarizedArticle(FakeResponse(json.dumps(mock), use_tool=True))
         
             return cleaned_article
     
     response = client.responses.create(
         model="gpt-4.1-mini",
+        tools=[{
+            "type": "web_search_preview"
+        }],
         input=f"""
         Tu es un assistant qui extrait des données à partir d'articles.
         

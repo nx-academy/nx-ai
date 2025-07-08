@@ -3,8 +3,14 @@ import json
 
 # Mock class for testing / simulation purposes
 class FakeResponse:
-    def __init__(self, text: str):
-        self.output = [FakeOutput(text)]
+    def __init__(self, text: str, use_tool: bool = False):
+        fake_output = FakeOutput(text)
+        
+        if use_tool:
+            # Simulate GPT structure when using a tool such as web_search_preview
+            self.output = [None, fake_output]
+        else:
+            self.output = [fake_output]
     
 class FakeOutput:
     def __init__(self, text: str):
@@ -37,7 +43,7 @@ class GPTSummarizedArticle:
     def __init__(self, raw_response):
         self.raw = raw_response
         try:
-            self.text = raw_response.output[0].content[0].text
+            self.text = raw_response.output[1].content[0].text
             self.data = self._parse_json(self.text)
         except (AttributeError, IndexError) as e:
             raise ValueError(f"Error when modeling data from gpt reponse: {e}")
