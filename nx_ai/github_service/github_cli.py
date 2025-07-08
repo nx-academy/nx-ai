@@ -12,4 +12,5 @@ def github_group():
 @github_group.command()
 def create_pr():
     """Create a Pull Request on repo nx-academy.github.io"""
-    create_pull_request_on_github("toto")
+    filename = "optimisation-images-docker"
+    create_pull_request_on_github(filename)

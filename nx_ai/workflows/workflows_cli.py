@@ -16,6 +16,7 @@ def generate_quiz():
     """
     url = "https://nx.academy/fiches/optimisation-images-docker/"
     filename = "optimisation-images-docker"
+    
     generate_quiz_beta(url, filename)
 
 
