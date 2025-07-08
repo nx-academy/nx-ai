@@ -86,7 +86,14 @@ def summarize_article_with_gpt(url, simulate):
     return gpt_summarized_article
 
 
-def generate_quiz_with_gpt(url):
+def generate_quiz_with_gpt(url, simulate):
+    if simulate:
+        with open("mock/generated_quiz.json", "r") as f:
+            mock = json.load(f)
+            simulated_gpt_generated_quiz = GPTGeneratedQuiz(FakeResponse(json.dumps(mock), use_tool=True))
+            
+            return simulated_gpt_generated_quiz
+    
     response = client.responses.create(
         model="gpt-4.1-mini",
         tools=[{
@@ -95,7 +102,7 @@ def generate_quiz_with_gpt(url):
         input=f"""
         Tu es un générateur de quiz pédagogique.
 
-        À partir de l'URL suivante, génère **1** questions à choix multiples. 
+        À partir de l'URL suivante, génère **2** questions à choix multiples. 
         
         Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
 
@@ -113,7 +120,7 @@ def generate_quiz_with_gpt(url):
         ]
         }}
 
-        Voici l'URL où trouver le contenu : https://nx.academy/fiches/presentation-registry-docker/
+        Voici l'URL où trouver le contenu : {url}
         """
     )
     gpt_generated_quiz = GPTGeneratedQuiz(response)

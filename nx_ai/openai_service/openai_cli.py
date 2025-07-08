@@ -44,10 +44,12 @@ def summarize_article(simulate):
 
 
 @openai_group.command()
-def generate_quiz():
+@click.option("--simulate", is_flag=True,
+              help="Simulate the API call by loading a local JSON file")
+def generate_quiz(simulate):
     """Generate a quiz in JSON Format from an article"""
     url = "https://nx.academy/fiches/presentation-registry-docker/"
     
-    gpt_generated_quiz = generate_quiz_with_gpt(url)
+    gpt_generated_quiz = generate_quiz_with_gpt(url, simulate)
     
     print(gpt_generated_quiz.data)
