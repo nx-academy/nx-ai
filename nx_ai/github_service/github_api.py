@@ -4,17 +4,16 @@ from github import Github, Auth
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
 
 
-def create_quizzes_folder():
-    if not os.path.exists("nx_ai/quizzes_data"):
-        os.makedirs("nx_ai/quizzes_data")
-
-
 def create_pull_request_on_github(filename: str):
     auth = Auth.Token(GITHUB_TOKEN)
     g = Github(auth=auth)
     
     repo = g.get_organization("nx-academy").get_repo("nx-academy.github.io")
     sb = repo.get_branch("main")
+    
+    print("====")
+    print(filename)
+    print("====")
     
     # Quiz logic for now
     repo.create_git_ref(ref=f"refs/heads/ai_{filename}-quiz", sha=sb.commit.sha)
