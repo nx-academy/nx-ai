@@ -1,0 +1,12 @@
+Un registry Docker est un service de stockage et de distribution d'images Docker, comparable à GitHub ou GitLab pour les conteneurs. Il permet de stocker, versionner et distribuer des images Docker, facilitant ainsi le déploiement et le partage d'applications conteneurisées. Le registry par défaut est Docker Hub, mais il existe également des alternatives telles que GitHub Container Registry, GitLab Container Registry, Google Container Registry et Amazon ECR.
+
+Les images Docker sont nommées et taguées de manière structurée. Par exemple, une image nommée ghcr.io/mon-orga/mon-image:1.0.0 se décompose comme suit :
+
+- ghcr.io : nom du registry (ici, GitHub Container Registry).
+- mon-orga : nom de l'organisation ou de l'utilisateur.
+- mon-image : nom de l'image.
+- 1.0.0 : tag, représentant la version de l'image.
+
+Pour envoyer une image vers un registry ou en récupérer une, il est nécessaire de s'y authentifier. Par exemple, pour Docker Hub, après avoir créé un compte, on utilise la commande docker login et on fournit son nom d'utilisateur et son mot de passe ou token d'accès. Une fois authentifié, on peut pousser une image avec docker push ou la récupérer avec docker pull.
+
+Il est également possible d'héberger son propre registry Docker sur ses serveurs, offrant ainsi un contrôle total sur le stockage et la distribution des images. 

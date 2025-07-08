@@ -19,11 +19,14 @@ def say_hello(simulate):
 
 
 @openai_group.command()
-def clean_article():
+@click.option("--simulate", is_flag=True, help="Simulate the API call by using a local text file")
+def clean_article(simulate):
     """Browse an web article with GPT tool and keep only the text contents"""
     article_url = "https://nx.academy/fiches/presentation-registry-docker/"
     
-    clean_article_with_gpt(article_url)
+    gpt_cleaned_article = clean_article_with_gpt(article_url, simulate)
+    
+    print(gpt_cleaned_article.text)
 
 
 @openai_group.command()

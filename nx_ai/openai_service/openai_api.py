@@ -1,7 +1,7 @@
 import json
 from openai import OpenAI
 
-from nx_ai.openai_service.gpt_models import GPTResponse, FakeResponse, GPTSummarizedArticle
+from nx_ai.openai_service.gpt_models import GPTResponse, FakeResponse, GPTSummarizedArticle, GPTCleanedArticle
 
 
 client = OpenAI()
@@ -23,7 +23,14 @@ def say_hello_to_gpt(simulate):
     return gpt_response
 
 
-def clean_article_with_gpt(url):
+def clean_article_with_gpt(url, simulate):
+    if simulate:
+        with open("mock/cleaned_article.txt", "r") as f:
+            mock = f.read()
+            simulate_gpt_cleaned_article = GPTCleanedArticle(FakeResponse(mock, use_tool=True))
+            
+            return simulate_gpt_cleaned_article
+    
     response = client.responses.create(
         model="gpt-4o-mini",
         tools=[{
@@ -39,20 +46,18 @@ def clean_article_with_gpt(url):
         Voici l'URL: {url}
         """
     )
+    gpt_cleaned_article = GPTCleanedArticle(response)
     
-    print("====")
-    print(response)
-    print("====")
-
+    return gpt_cleaned_article
 
 
 def summarize_article_with_gpt(url, simulate):
     if simulate:
         with open("mock/summarized_article.json", "r") as f:
             mock = json.load(f)
-            cleaned_article = GPTSummarizedArticle(FakeResponse(json.dumps(mock), use_tool=True))
+            simulate_gpt_summarized_article = GPTSummarizedArticle(FakeResponse(json.dumps(mock), use_tool=True))
         
-            return cleaned_article
+            return simulate_gpt_summarized_article
     
     response = client.responses.create(
         model="gpt-4.1-mini",
