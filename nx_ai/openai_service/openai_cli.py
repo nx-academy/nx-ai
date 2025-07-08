@@ -27,6 +27,6 @@ def summarize_article(simulate):
     
     gpt_summarized_article = summarize_article_with_gpt(article_url, simulate)
     
-    # print("====")
-    # print(gpt_summarized_article.data)
-    # print("====")
+    print("====")
+    print(gpt_summarized_article.data)
+    print("====")

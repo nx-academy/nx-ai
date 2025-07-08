@@ -27,16 +27,9 @@ def summarize_article_with_gpt(url, simulate):
     if simulate:
         with open("mock/summarized_article.json", "r") as f:
             mock = json.load(f)
-            
-            print(mock["data"])
-            
-            # cleaned_article = GPTSummarizedArticle(FakeResponse(mock))
+            cleaned_article = GPTSummarizedArticle(FakeResponse(json.dumps(mock)))
         
-            # print("====")
-            # print(cleaned_article)
-            # print("====")
-            
-            return
+            return cleaned_article
     
     response = client.responses.create(
         model="gpt-4.1-mini",
