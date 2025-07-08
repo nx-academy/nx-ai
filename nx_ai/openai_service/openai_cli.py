@@ -5,6 +5,7 @@ from nx_ai.openai_service.openai_api import say_hello_to_gpt, summarize_article_
 
 @click.group()
 def openai_group():
+    """Set of commands related to OpenAI"""
     pass
 
 
