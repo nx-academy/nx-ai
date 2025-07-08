@@ -11,10 +11,6 @@ def create_pull_request_on_github(filename: str):
     repo = g.get_organization("nx-academy").get_repo("nx-academy.github.io")
     sb = repo.get_branch("main")
     
-    print("====")
-    print(filename)
-    print("====")
-    
     # Quiz logic for now
     repo.create_git_ref(ref=f"refs/heads/ai_{filename}-quiz", sha=sb.commit.sha)
     print(f"Successfully created branch ai_{filename}-quiz")

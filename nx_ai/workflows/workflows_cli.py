@@ -1,6 +1,7 @@
 import click
 
 from nx_ai.workflows.generate_quiz import generate_quiz_beta
+from nx_ai.workflows.generate_recap import generate_recap_beta
 
 
 @click.group()
@@ -30,6 +31,4 @@ def generate_recap():
     Generate an article recap as Markdown and open a PR on nx-academy.github.io
     """
     
-    print("====")
-    print("====")
-    print("====")
+    generate_recap_beta()
