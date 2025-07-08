@@ -1,7 +1,7 @@
 import click
 
 
-from nx_ai.github import write_content_from_github, create_pull_request_on_github
+from nx_ai.github import create_pull_request_on_github
 from nx_ai.openai import (
     create_document_with_chroma, 
     generate_quiz_from_gpt, 
@@ -19,35 +19,27 @@ def cli():
 
 
 @cli.command()
-def generate_quiz():
-    """New version of the generated quiz feature"""
-    print("=====")
-    print("=====")
-    print("=====")
-
-
-@cli.command()
 def generate_quiz_beta():
     """Generate a quiz with GPT from a raw markdown file and PR it to Astro repo"""
     # For now, I pass the url and the file name in raw data. I'll see later how to retrieve it from a file, command, and/or discord
     article_url = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/drafts/optimisation-images-docker.md"
     article_name = "optimisation-images-docker.md"
     
-    # Retrieve the content from GitHub by scrapping it and store them locally
-    write_content_from_github(article_url, article_name)
+    # # Retrieve the content from GitHub by scrapping it and store them locally
+    # write_content_from_github(article_url, article_name)
     
-    # Create the doc
-    create_document_with_chroma(
-        f"nx_ai/courses_data/{article_name}",
-        article_name[:-3]
-    )
+    # # Create the doc
+    # create_document_with_chroma(
+    #     f"nx_ai/courses_data/{article_name}",
+    #     article_name[:-3]
+    # )
     
-    # Generate the quiz
-    generate_quiz_from_gpt(article_name[:-3])
+    # # Generate the quiz
+    # generate_quiz_from_gpt(article_name[:-3])
     
-    # PR it to GitHub
-    print("Ready to PR it!")
-    create_pull_request_on_github(article_name[:-3], "quiz")
+    # # PR it to GitHub
+    # print("Ready to PR it!")
+    # create_pull_request_on_github(article_name[:-3], "quiz")
 
 
 @cli.command()
@@ -140,13 +132,6 @@ publishedDate: 06/27/2025
     # PR the summary on GitHub
     create_pull_request_on_github("le-recap-june-2025", "recap")
 
-@cli.command()
-@click.option("--url", prompt="GitHub URL", help="Enter the full GitHub URL you'd like to fetch. Must be a raw format.")
-@click.option("--name", prompt="Document name", help="The name of the document you'd like to create locally")
-def scrape_github(url, name):
-    """Retrieve a raw file from GitHub, clean it, and store it locally in the folder of your choice."""
-    write_content_from_github(url, name)
-    
     
 @cli.command()
 @click.option("--location", prompt="File location", help="Enter the path where the file you want to embed is located")

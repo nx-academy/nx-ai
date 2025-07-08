@@ -14,16 +14,6 @@ def create_course_folder():
         os.makedirs("nx_ai/courses_data")
 
 
-def write_content_from_github(url, document_name):    
-    response = requests.get(url)
-    
-    if response.status_code == 200:
-        create_course_folder()
-        
-        with open(f"nx_ai/courses_data/{document_name}", "w", encoding="utf-8") as file:
-            file.write(clean_md_for_rag(response.text))
-
-
 def create_pull_request_on_github(document_name, type):
     auth = Auth.Token(get_config()["github_token"])
     g = Github(auth=auth)
