@@ -9,13 +9,21 @@ from nx_ai.openai import (
 from nx_ai.bot_test import run_bot
 from nx_ai.scraper import scrape_article_from_internet
 
-from nx_ai.chroma_cli import chroma_group
-from nx_ai.openai_cli import openai_group
+# from nx_ai.openai_cli import openai_group
+from nx_ai.openai_service.openai_cli import openai_group
 
 
 @click.group()
 def cli():
     pass
+
+
+@cli.command()
+def generate_quiz():
+    """New version of the generated quiz feature"""
+    print("=====")
+    print("=====")
+    print("=====")
 
 
 @cli.command()
@@ -191,7 +199,7 @@ def generate_summary(name):
     generate_summary_with_gpt(name)
 
 
-cli.add_command(chroma_group, name="chroma")
+
 cli.add_command(openai_group, name="openai")
 
 
