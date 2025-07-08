@@ -80,3 +80,29 @@ class GPTSummarizedArticle:
             "text": self.text,
             "data": self.data
         }
+
+
+class GPTGeneratedQuiz:
+    def __init__(self, raw_response):
+        self.raw = raw_response
+        try:
+            self.text = raw_response.output[1].content[0].text
+            self.data = self._parse_json(self.text)
+        except (AttributeError, IndexError) as e:
+            raise ValueError(f"Error when creating GPTGenearedQuiz Object: {e}")
+    
+    def __repr__(self):
+        return f"<GPTGeneratedQuiz: {self.text[:60]}...>"
+    
+    def _parse_json(self, text):
+        try:
+            parsed = json.loads(text)
+            return parsed.get("data")
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Error when decoding respons as JSON: {e}")
+    
+    def to_dict(self):
+        return {
+            "text": self.text,
+            "data": self.data
+        }

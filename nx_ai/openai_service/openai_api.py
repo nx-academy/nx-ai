@@ -1,7 +1,7 @@
 import json
 from openai import OpenAI
 
-from nx_ai.openai_service.gpt_models import GPTResponse, FakeResponse, GPTSummarizedArticle, GPTCleanedArticle
+from nx_ai.openai_service.gpt_models import GPTResponse, FakeResponse, GPTSummarizedArticle, GPTCleanedArticle, GPTGeneratedQuiz
 
 
 client = OpenAI()
@@ -84,3 +84,38 @@ def summarize_article_with_gpt(url, simulate):
     gpt_summarized_article = GPTSummarizedArticle(response)
     
     return gpt_summarized_article
+
+
+def generate_quiz_with_gpt(url):
+    response = client.responses.create(
+        model="gpt-4.1-mini",
+        tools=[{
+            "type": "web_search_preview"
+        }],
+        input=f"""
+        Tu es un générateur de quiz pédagogique.
+
+        À partir de l'URL suivante, génère **1** questions à choix multiples. 
+        
+        Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
+
+        Garde le même ton que l'auteur du texte pour la réalisation du quiz.
+
+        Ne formate pas la réponse dans un bloc Markdown. Ne mets pas de balises ```json ou ```. Réponds uniquement avec du JSON brut comme ci-dessous :
+        {{
+        "data": [
+            {{
+            "question": "...",
+            "options": ["...", "...", "...", "..."],
+            "answer": "...",
+            "explanation": "..."
+            }}
+        ]
+        }}
+
+        Voici l'URL où trouver le contenu : https://nx.academy/fiches/presentation-registry-docker/
+        """
+    )
+    gpt_generated_quiz = GPTGeneratedQuiz(response)
+    
+    return gpt_generated_quiz
