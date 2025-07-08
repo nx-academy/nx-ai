@@ -6,8 +6,6 @@ from nx_ai.utils.clean_md import clean_md_for_rag
 from nx_ai.config import get_config
 
 
-BASE_URL = "https://raw.githubusercontent.com/nx-academy/nx-academy.github.io/refs/heads/main/src/pages/cours"
-
 
 def create_course_folder():
     if not os.path.exists("nx_ai/courses_data"):

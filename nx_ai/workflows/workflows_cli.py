@@ -14,7 +14,9 @@ def generate_quiz():
     """
     Generate a quiz from an article and open a PR on nx-academy.github.io
     """
-    generate_quiz_beta("toto")
+    url = "https://nx.academy/fiches/optimisation-images-docker/"
+    filename = "optimisation-images-docker"
+    generate_quiz_beta(url, filename)
 
 
 @workflows_group.command()
