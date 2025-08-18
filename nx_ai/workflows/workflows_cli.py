@@ -19,8 +19,8 @@ def generate_quiz(simulate):
     """
     
     # For now, I keep the url of the article and its filename here. I'll see later to maybe save them in a local db.
-    url = "https://nx.academy/fiches/optimisation-images-docker/"
-    filename = "optimisation-images-docker"
+    url = "https://nx.academy/drafts/artefact-github-actions/"
+    filename = "artefact-github-actions"
     
     generate_quiz_beta(url, filename, simulate)
 
