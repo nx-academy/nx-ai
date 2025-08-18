@@ -2,13 +2,15 @@ import os
 
 
 from nx_ai.openai_service.openai_api import summarize_article_with_gpt
+from nx_ai.github_service.github_api import create_pull_request_on_github
+
 
 def create_recap_folder():
     if not os.path.exists("nx_ai/recap_data"):
         os.makedirs("nx_ai/recap_data")
 
 
-def generate_recap_beta(urls: list[str], simulate: bool):
+def generate_recap_beta(urls: list[str], filename: str, simulate: bool):
     articles = []
     
     for url in urls:
@@ -51,5 +53,7 @@ publishedDate: METTRE A JOUR | 06/27/2025
 """
 
     create_recap_folder()
-    with open(f"nx_ai/recap_data/test.md", "w", encoding="utf-8") as file:
+    with open(f"nx_ai/recap_data/{filename}.md", "w", encoding="utf-8") as file:
         file.write(recap_text)
+        
+    create_pull_request_on_github(filename=filename, type="recap")

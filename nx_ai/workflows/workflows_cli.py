@@ -32,6 +32,9 @@ def generate_recap(simulate):
     """
     Generate an article recap as Markdown and open a PR on nx-academy.github.io
     """
-    urls = ["https://www.courrierinternational.com/video/video-foot-athletisme-ou-menage-les-images-des-premiers-jeux-mondiaux-d-humanoides_234026"]
     
-    generate_recap_beta(urls=urls, simulate=simulate)
+    # Same that above -> For now, I keep the urls of the article and its filename here.
+    urls = ["https://www.courrierinternational.com/video/video-foot-athletisme-ou-menage-les-images-des-premiers-jeux-mondiaux-d-humanoides_234026"]
+    filename = "le-recap-aout-2025"
+    
+    generate_recap_beta(urls=urls, filename=filename, simulate=simulate)

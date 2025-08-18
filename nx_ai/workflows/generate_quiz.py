@@ -17,4 +17,4 @@ def generate_quiz_beta(url: str, filename: str, simulate):
     with open(f"nx_ai/quizzes_data/{filename}.json", "w", encoding="utf-8") as file:
         json.dump({"data": generated_quiz.data}, file, indent=4, ensure_ascii=False)
     
-    create_pull_request_on_github(filename)
+    create_pull_request_on_github(filename=filename, type="quiz")
