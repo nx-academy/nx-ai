@@ -51,7 +51,7 @@ def clean_article_with_gpt(url, simulate):
     return gpt_cleaned_article
 
 
-def summarize_article_with_gpt(url, simulate):
+def summarize_article_with_gpt(url: str, simulate: bool):
     if simulate:
         with open("mock/summarized_article.json", "r") as f:
             mock = json.load(f)

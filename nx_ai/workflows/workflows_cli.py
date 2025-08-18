@@ -26,9 +26,12 @@ def generate_quiz(simulate):
 
 
 @workflows_group.command()
-def generate_recap():
+@click.option("--simulate", is_flag=True,
+              help="Simulate the API Call to GPT / Costs no money")
+def generate_recap(simulate):
     """
     Generate an article recap as Markdown and open a PR on nx-academy.github.io
     """
+    url = "https://www.courrierinternational.com/video/video-foot-athletisme-ou-menage-les-images-des-premiers-jeux-mondiaux-d-humanoides_234026"
     
-    generate_recap_beta()
+    generate_recap_beta(url=url, simulate=simulate)
