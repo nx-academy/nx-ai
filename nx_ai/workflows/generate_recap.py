@@ -7,9 +7,18 @@ def create_recap_folder():
         os.makedirs("nx_ai/recap_data")
 
 
-def generate_recap_beta(url: str, simulate: bool):
-    article = summarize_article_with_gpt(url=url, simulate=simulate)
+def generate_recap_beta(urls: list[str], simulate: bool):
+    articles = []
     
+    for url in urls:
+        article = summarize_article_with_gpt(url=url, simulate=simulate)
+        articles.append(article)
+        
+        
     print("====")
-    print(article)
+    print(articles)
     print("====")
+    
+    create_recap_folder()
+    
+    
