@@ -1,5 +1,7 @@
 services:
-  python-app:
-    build: .
+  nx-ai:
+    build:
+      context: .
+      target: dev
     env_file:
       - ./.env

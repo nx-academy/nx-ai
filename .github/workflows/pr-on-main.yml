@@ -1,0 +1,19 @@
+name: Run pytest in Docker when creating a PR on main
+
+on:
+  pull_request:
+    branches: ["main"]
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+      - name: Build Docker test image
+        run: docker image build -t nx-ai-test --target test .
+      - name: Run tests inside the container
+        run: docker container run --rm nx-ai-test
