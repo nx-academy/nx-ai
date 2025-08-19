@@ -19,16 +19,22 @@ def generate_quiz(simulate):
     """
     
     # For now, I keep the url of the article and its filename here. I'll see later to maybe save them in a local db.
-    url = "https://nx.academy/fiches/optimisation-images-docker/"
-    filename = "optimisation-images-docker"
+    url = "https://nx.academy/drafts/artefact-github-actions/"
+    filename = "artefact-github-actions"
     
     generate_quiz_beta(url, filename, simulate)
 
 
 @workflows_group.command()
-def generate_recap():
+@click.option("--simulate", is_flag=True,
+              help="Simulate the API Call to GPT / Costs no money")
+def generate_recap(simulate):
     """
     Generate an article recap as Markdown and open a PR on nx-academy.github.io
     """
     
-    generate_recap_beta()
+    # Same that above -> For now, I keep the urls of the article and its filename here.
+    urls = ["https://www.courrierinternational.com/video/video-foot-athletisme-ou-menage-les-images-des-premiers-jeux-mondiaux-d-humanoides_234026"]
+    filename = "le-recap-aout-2025"
+    
+    generate_recap_beta(urls=urls, filename=filename, simulate=simulate)

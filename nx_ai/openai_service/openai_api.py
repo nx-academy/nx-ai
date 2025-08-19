@@ -51,7 +51,7 @@ def clean_article_with_gpt(url, simulate):
     return gpt_cleaned_article
 
 
-def summarize_article_with_gpt(url, simulate):
+def summarize_article_with_gpt(url: str, simulate: bool):
     if simulate:
         with open("mock/summarized_article.json", "r") as f:
             mock = json.load(f)
@@ -102,7 +102,7 @@ def generate_quiz_with_gpt(url, simulate):
         input=f"""
         Tu es un générateur de quiz pédagogique.
 
-        À partir de l'URL suivante, génère **2** questions à choix multiples. 
+        À partir de l'URL suivante, génère **10** questions à choix multiples. 
         
         Chaque question doit avoir 4 propositions, dont une seule correcte et une explication pour la réponse correcte. L’explication ne doit pas dépasser 1 à 2 phrases.
 
