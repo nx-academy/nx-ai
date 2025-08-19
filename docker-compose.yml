@@ -1,5 +1,11 @@
 services:
-  python-app:
-    build: .
+  nx-ai:
+    build:
+      context: .
+      target: dev
     env_file:
       - ./.env
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/workspaces/nx-ai
