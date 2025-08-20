@@ -9,6 +9,22 @@ GUILD_ID = 1357783834208243864
 DISCORD_RECAP_CHANNEL = int(os.environ.get("DISCORD_RECAP_CHANNEL"))
 
 
+class NewsModal(Modal, title="Créer une nouvelle news"):
+    title_input = TextInput(label="Titre", placeholder="Titre de la news", max_length=255)
+    content_input = TextInput(
+        label="Contenu",
+        style=discord.TextStyle.paragraph,
+        placeholder="Contenu de la news",
+        max_length=500)
+    url_input = TextInput(label="URL", placeholder="https://...")
+    
+    async def on_submit(self, interaction: discord.Interaction):
+        await interaction.response.send_message(
+            f"✨ Proposition reçue !\n\n**Titre**: {self.title_input}\n**Résumé**: {self.summary_input}\n**URL**: {self.url_input}",
+            ephemeral=True
+        )
+
+
 class NewsFeedClient(discord.Client):
     def __init__(self):
         super().__init__(intents=discord.Intents.default())
@@ -29,8 +45,7 @@ def run_discord_bot():
     
     @client.tree.command(name="add_news", description="Créer une nouvelle news")
     async def create_news(interaction: discord.Interaction):
-        print("====")
-        print("====")
-        print("====")
+        modal = NewsModal()
+        await interaction.response.send_modal(modal)
     
     client.run(DISCORD_TOKEN)
