@@ -20,7 +20,7 @@ class NewsModal(Modal, title="Créer une nouvelle news"):
     
     async def on_submit(self, interaction: discord.Interaction):
         await interaction.response.send_message(
-            f"✨ Proposition reçue !\n\n**Titre**: {self.title_input}\n**Résumé**: {self.summary_input}\n**URL**: {self.url_input}",
+            f"✨ Proposition reçue !\n\n**Titre**: {self.title_input}\n**Résumé**: {self.content_input}\n**URL**: {self.url_input}",
             ephemeral=True
         )
 
