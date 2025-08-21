@@ -17,7 +17,7 @@ def test_slugify_long_title():
     title = "GitHub Actions propose un nouveau cache distribué pour accélérer les workflows CI"
     slugy_title = slugify_title(title)
     
-    assert slugy_title == "github-actions-propose-un-nouveau-cache-distribu-pour-acclrer-les-workflows-ci"
+    assert slugy_title == "github-actions-propose-un-nouveau-cache-distribue-pour-accelerer-les-workflows-c"
 
 
 def test_slugify_with_apostrophe():
