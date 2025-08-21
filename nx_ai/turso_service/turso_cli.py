@@ -34,4 +34,9 @@ def create_news(title: str, content: str, url: str, simulate: bool):
               """)
         return
     
-    # asyncio.run(insert_news_in_db())
+    asyncio.run(insert_news_in_db(
+        title=title,
+        content=content,
+        url=url,
+        slug=slugify_title(title)
+    ))
