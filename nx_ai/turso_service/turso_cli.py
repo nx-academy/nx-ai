@@ -1,4 +1,7 @@
+import asyncio
 import click
+
+from nx_ai.turso_service.turso_api import insert_news_in_db
 
 
 @click.group()
@@ -10,6 +13,4 @@ def turso_group():
 @turso_group.command()
 def create_news():
     """Insert a News in NewsFeed table"""
-    print("+++")
-    print("+++")
-    print("+++")
+    asyncio.run(insert_news_in_db())
