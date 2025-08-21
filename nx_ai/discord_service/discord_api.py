@@ -1,12 +1,39 @@
+import os
+
 import discord
 from discord import app_commands
-from discord.ui import Modal, TextInput
-import os
+from discord.ui import Modal, TextInput, View, button
+
+from nx_ai.utils.slugify import slugify_title
+from nx_ai.utils.url_checker import is_url_valid
+
 
 
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 GUILD_ID = 1357783834208243864
+
 DISCORD_RECAP_CHANNEL = int(os.environ.get("DISCORD_RECAP_CHANNEL"))
+DISCORD_BO_NEWS_FEED = 1407779612439613522
+
+
+class PreviewNewsView(View):
+    def __init__(self, *, title: str, content: str, url: str):
+        super().__init__(timeout=600)
+        self.title = title
+        self.content = content
+        self.url = url
+        self.slug = slugify_title(title)
+    
+    @button(label="Publier", style=discord.ButtonStyle.success)
+    async def publish(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.response.edit_message(
+            content="✅ Publié",
+            view=None
+        )
+    
+    @button(label="Rejeter", style=discord.ButtonStyle.danger)
+    async def reject(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await interaction.message.delete()
 
 
 class NewsModal(Modal, title="Créer une nouvelle news"):
@@ -19,9 +46,32 @@ class NewsModal(Modal, title="Créer une nouvelle news"):
     url_input = TextInput(label="URL", placeholder="https://...")
     
     async def on_submit(self, interaction: discord.Interaction):
+        title = str(self.title_input).strip()
+        content = str(self.content_input).strip()
+        url = str(self.url_input).strip()
+        
+        if not is_url_valid(url):
+            await interaction.response.send_message("❌ URL invalide. Utiliser un lien http(s).", ephemeral=True)
+            return
+        
+        embed = discord.Embed(
+            title=title,
+            description=content,
+            color=discord.Color.blurple()
+        )
+        embed.add_field(name="Lien", value=url, inline=False)
+        embed.add_field(name="Slug", value=slugify_title(title), inline=True)
+        
+        view = PreviewNewsView(
+            title=title,
+            content=content,
+            url=url
+        )
+        
         await interaction.response.send_message(
-            f"✨ Proposition reçue !\n\n**Titre**: {self.title_input}\n**Résumé**: {self.content_input}\n**URL**: {self.url_input}",
-            ephemeral=True
+            embed=embed,
+            view=view,
+            ephemeral=False
         )
 
 
@@ -45,7 +95,13 @@ def run_discord_bot():
     
     @client.tree.command(name="add_news", description="Créer une nouvelle news")
     async def create_news(interaction: discord.Interaction):
-        modal = NewsModal()
-        await interaction.response.send_modal(modal)
+        if interaction.channel_id != DISCORD_BO_NEWS_FEED:
+            await interaction.response.send_message(
+                "❌ Cette commande n’est autorisée que dans le channel dédié.",
+                ephemeral=True
+            )
+            return
+        
+        await interaction.response.send_modal(NewsModal())
     
     client.run(DISCORD_TOKEN)
