@@ -17,17 +17,20 @@ def _create_db_client() -> Client:
 async def insert_news_in_db(title: str, content: str, url: str, slug: str):
     client = _create_db_client()
     
-    now = datetime.utcnow().isoformat()
-    query = """
-    INSERT INTO NewsFeed (title, content, slug, url, published)
-    VALUES (?, ?, ?, ?, ?)
-    """
-    
-    await client.execute(query, [
-        title,
-        content,
-        slug,
-        url,
-        now
-    ])
-    print("✅ News added in NewsFeed Table")
+    try:
+        now = datetime.utcnow().isoformat()
+        query = """
+        INSERT INTO NewsFeed (title, content, slug, url, published)
+        VALUES (?, ?, ?, ?, ?)
+        """
+        
+        await client.execute(query, [
+            title,
+            content,
+            slug,
+            url,
+            now
+        ])
+        print("✅ News added in NewsFeed Table")
+    finally:
+        await client.close()
