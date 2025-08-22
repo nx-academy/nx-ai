@@ -6,7 +6,7 @@ from discord.ui import Modal, TextInput, View, button
 
 from nx_ai.utils.slugify import slugify_title
 from nx_ai.utils.url_checker import is_url_valid
-
+from nx_ai.turso_service.turso_api import insert_news_in_db
 
 
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
@@ -25,10 +25,24 @@ class PreviewNewsView(View):
     
     @button(label="Publier", style=discord.ButtonStyle.success)
     async def publish(self, interaction: discord.Interaction, button: discord.ui.Button):
-        await interaction.response.edit_message(
-            content="✅ Publié",
-            view=None
-        )
+        try:
+            await insert_news_in_db(
+                title=self.title,
+                content=self.content,
+                url=self.url,
+                slug=self.slug
+            )
+            
+            await interaction.response.edit_message(
+                content="✅ News publiée et ajoutée à la base de données !",
+                view=None
+            )
+        
+        except Exception as e:
+            await interaction.response.send_message(
+                f"❌ Erreur lors de la publication : {e}",
+                ephemeral=True
+            )
     
     @button(label="Rejeter", style=discord.ButtonStyle.danger)
     async def reject(self, interaction: discord.Interaction, button: discord.ui.Button):
