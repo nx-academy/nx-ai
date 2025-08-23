@@ -1,6 +1,11 @@
 import click
 
-from nx_ai.openai_service.openai_api import say_hello_to_gpt, summarize_article_with_gpt, clean_article_with_gpt, generate_quiz_with_gpt
+from nx_ai.openai_service.openai_api import (
+    clean_article_with_gpt, 
+    fetch_news_with_gpt_web_search,
+    generate_quiz_with_gpt,
+    say_hello_to_gpt,
+    summarize_article_with_gpt)
  
 
 @click.group()
@@ -54,3 +59,13 @@ def generate_quiz(simulate):
     gpt_generated_quiz = generate_quiz_with_gpt(url, simulate)
     
     print(gpt_generated_quiz.data)
+
+
+@openai_group.command()
+@click.option("--simulate", is_flag=True,
+              help="Simulate the API call by loading a local JSON file")
+def fetch_news(simulate):
+    """Use Bing Search to find news related to a specific topic"""
+    gpt_fetched_news = fetch_news_with_gpt_web_search(simulate=simulate)
+    
+    print(gpt_fetched_news.data)

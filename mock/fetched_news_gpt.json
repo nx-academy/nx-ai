@@ -1,0 +1,19 @@
+{
+  "data": [
+    {
+      "title": "Lancement de GPT-5 : réactions mitigées dans la communauté tech",
+      "content": "Le lancement de GPT-5 a suscité des critiques : peu de nouveautés majeures, une personnalité jugée plus distante, et des performances jugées inégales selon les usages.",
+      "url": "https://example.com/gpt5-lancement-reactions"
+    },
+    {
+      "title": "GPT-5 face à GPT-4o : un comparatif étonnant",
+      "content": "Un test comparatif entre GPT-5 et GPT-4o révèle que l'ancien modèle reste préféré pour sa chaleur et sa polyvalence, malgré les améliorations techniques de GPT-5.",
+      "url": "https://example.com/comparatif-gpt5-vs-gpt4o"
+    },
+    {
+      "title": "OpenAI adapte GPT-5 à l'éducation : un pari risqué ?",
+      "content": "OpenAI propose des adaptations spécifiques de GPT-5 pour le monde éducatif, mais certains enseignants pointent une complexité croissante et une approche trop générique.",
+      "url": "https://example.com/openai-gpt5-education"
+    }
+  ]
+}
