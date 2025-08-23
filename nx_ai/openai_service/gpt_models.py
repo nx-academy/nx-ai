@@ -123,8 +123,6 @@ class GPTFetchedNews:
     def _parse_json(self, text):
         try:
             parsed = json.loads(text)
-            if not isinstance(parsed, list):
-                raise ValueError("Expected list of news items")
             return parsed
         except json.JSONDecodeError as e:
             raise ValueError(f"Error when decoding response as JSON: {e}")

@@ -68,6 +68,4 @@ def fetch_news(simulate):
     """Use Bing Search to find news related to a specific topic"""
     gpt_fetched_news = fetch_news_with_gpt_web_search(simulate=simulate)
     
-    print("=====")
     print(gpt_fetched_news.data)
-    print("=====")

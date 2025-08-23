@@ -7,14 +7,16 @@ Pour chaque article, renvoie un objet JSON au format suivant :
 - "content" : un résumé de l’article en français, entre 350 et 500 caractères
 - "url" : l’URL de l’article d’origine
 
-Renvoie uniquement un tableau JSON avec 5 éléments. Aucune explication ou commentaire.
+Renvoie uniquement un tableau JSON avec 2 éléments. Aucune explication ou commentaire.
 
-Le format doit ressembler à ceci :
-[
-  {
-    "title": "...",
-    "content": "...",
-    "url": "..."
-  },
-  ...
-]
+Ne formate pas la réponse dans un bloc Markdown. Ne mets pas de balises ```json ou ```. Réponds uniquement avec du JSON brut comme ci-dessous :
+{
+  "data": [
+    {
+      "title": "...",
+      "content": "...",
+      "url": "..."
+    },
+    ...
+  ]
+}
