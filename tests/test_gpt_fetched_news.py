@@ -14,11 +14,15 @@ def test_gpt_fetched_news():
         gpt_fetched_news = GPTFetchedNews(
             FakeResponse(json.dumps(mock), use_tool=True)
         )
+        news_items = gpt_fetched_news.data["data"]
         
-        assert len(gpt_fetched_news.data["data"]) == 3
-        
-        first_mocked_news = gpt_fetched_news.data["data"][0]
-        assert "Lancement de GPT-5" in first_mocked_news["title"]
-        
-        third_mocked_news = gpt_fetched_news.data["data"][2]
-        assert "mais certains enseignants pointent une complexité croissante" in third_mocked_news["content"]
+        assert len(news_items) == 3
+
+        for item in news_items:
+            assert "title" in item
+            assert "content" in item
+            assert "url" in item
+            assert item["url"].startswith("http")
+
+        assert "Lancement de GPT-5" in news_items[0]["title"]
+        assert "mais certains enseignants pointent une complexité croissante" in news_items[2]["content"]
