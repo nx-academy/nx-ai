@@ -3,7 +3,14 @@ from pathlib import Path
 
 from openai import OpenAI
 
-from nx_ai.openai_service.gpt_models import GPTResponse, FakeResponse, GPTSummarizedArticle, GPTCleanedArticle, GPTGeneratedQuiz
+from nx_ai.openai_service.gpt_models import (
+    FakeResponse,
+    GPTCleanedArticle,
+    GPTFetchedNews,
+    GPTGeneratedQuiz,
+    GPTResponse,
+    GPTSummarizedArticle
+)
 
 
 client = OpenAI()
@@ -130,7 +137,16 @@ def generate_quiz_with_gpt(url, simulate):
     return gpt_generated_quiz
 
 
-def fetch_news_with_gpt_web_search():
+def fetch_news_with_gpt_web_search(simulate: bool):
+    if simulate:
+        with open("mock/fetched_news_gpt.json", "r", encoding="utf-8") as f:
+            mock = json.load(f)
+            simulate_gpt_fetched_news = GPTFetchedNews(
+                FakeResponse(json.dumps(mock), use_tool=True)
+            )
+            
+            return simulate_gpt_fetched_news
+        
     prompt_path = Path("prompts/fetch_news_gpt.txt")
     with open(prompt_path, mode="r", encoding="utf-8") as f:
         prompt = f.read()
@@ -142,7 +158,6 @@ def fetch_news_with_gpt_web_search():
             }],
             input=prompt
         )
+        gpt_fetched_news = GPTFetchedNews(response)
         
-        print("====")
-        print(response)
-        print("====")
+        return gpt_fetched_news

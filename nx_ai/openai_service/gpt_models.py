@@ -99,10 +99,44 @@ class GPTGeneratedQuiz:
             parsed = json.loads(text)
             return parsed.get("data")
         except json.JSONDecodeError as e:
-            raise ValueError(f"Error when decoding respons as JSON: {e}")
+            raise ValueError(f"Error when decoding response as JSON: {e}")
     
     def to_dict(self):
         return {
             "text": self.text,
             "data": self.data
         }
+
+
+class GPTFetchedNews:
+    def __init__(self, raw_response):
+        self.raw = raw_response
+        try:
+            self.text = raw_response.output[1].content[0].text
+            self.data = self._parse_json(self.text)
+        except (AttributeError, IndexError) as e:
+            raise ValueError(f"Error when modeling data from GPT Responses: {e}")
+    
+    def __repr__(self):
+        return f"<GPTFetchedNews: {len(self.data)} articles>"
+    
+    def _parse_json(self, text):
+        try:
+            parsed = json.loads(text)
+            if not isinstance(parsed, list):
+                raise ValueError("Expected list of news items")
+            return parsed
+        except json.JSONDecodeError as e:
+            raise ValueError(f"Error when decoding response as JSON: {e}")
+    
+    def to_dict(self):
+        return {
+            "text": self.text,
+            "data": self.data
+        }
+    
+    def __iter__(self):
+        return iter(self.data)
+    
+    def __len__(self):
+        return len(self.data)

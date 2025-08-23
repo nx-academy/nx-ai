@@ -66,4 +66,8 @@ def generate_quiz(simulate):
               help="Simulate the API call by loading a local JSON file")
 def fetch_news(simulate):
     """Use Bing Search to find news related to a specific topic"""
-    fetch_news_with_gpt_web_search()
+    gpt_fetched_news = fetch_news_with_gpt_web_search(simulate=simulate)
+    
+    print("=====")
+    print(gpt_fetched_news.data)
+    print("=====")
