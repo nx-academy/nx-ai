@@ -122,7 +122,8 @@ def run_discord_bot():
         await interaction.response.send_modal(NewsModal())
         
     @client.tree.command(name="fetch_news", description="Chercher des news sur Internet")
-    async def fetch_news(interaction: discord.Interaction):
+    @app_commands.describe(simulate="Si activé, renvoie des données mockées (simulate=True)")
+    async def fetch_news(interaction: discord.Interaction, simulate: bool = True):
         if interaction.channel_id != DISCORD_BO_NEWSROOM_IA:
             await interaction.response.send_message(
                 "❌ Cette commande n’est autorisée que dans le channel dédié.",
@@ -130,9 +131,9 @@ def run_discord_bot():
             )
             return
             
-        await interaction.response.send_message("🔍 Recherche en cours...")
+        await interaction.response.send_message(f"🔍 Recherche {'simulée' if simulate else 'réelle'} en cours...")
         
-        news = fetch_news_with_gpt_web_search(simulate=True)
+        news = fetch_news_with_gpt_web_search(simulate=simulate)
         
         for item in news.data["data"]:
             embed = discord.Embed(
