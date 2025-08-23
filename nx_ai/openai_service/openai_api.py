@@ -1,4 +1,6 @@
 import json
+from pathlib import Path
+
 from openai import OpenAI
 
 from nx_ai.openai_service.gpt_models import GPTResponse, FakeResponse, GPTSummarizedArticle, GPTCleanedArticle, GPTGeneratedQuiz
@@ -126,3 +128,21 @@ def generate_quiz_with_gpt(url, simulate):
     gpt_generated_quiz = GPTGeneratedQuiz(response)
     
     return gpt_generated_quiz
+
+
+def fetch_news_with_gpt_web_search():
+    prompt_path = Path("prompts/fetch_news_gpt.txt")
+    with open(prompt_path, mode="r", encoding="utf-8") as f:
+        prompt = f.read()
+        
+        response = client.responses.create(
+            model="gpt-4o-mini",
+            tools=[{
+                "type": "web_search_preview"
+            }],
+            input=prompt
+        )
+        
+        print("====")
+        print(response)
+        print("====")
