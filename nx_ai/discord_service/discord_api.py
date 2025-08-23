@@ -7,6 +7,7 @@ from discord.ui import Modal, TextInput, View, button
 from nx_ai.utils.slugify import slugify_title
 from nx_ai.utils.url_checker import is_url_valid
 from nx_ai.turso_service.turso_api import insert_news_in_db
+from nx_ai.github_service.github_api import trigger_gh_rebuild
 
 
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
@@ -37,6 +38,7 @@ class PreviewNewsView(View):
                 content="✅ News publiée et ajoutée à la base de données !",
                 view=None
             )
+            trigger_gh_rebuild()
         
         except Exception as e:
             await interaction.response.send_message(

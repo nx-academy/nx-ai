@@ -1,7 +1,19 @@
 import os
 from github import Github, Auth
 
+
 GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+
+
+def trigger_gh_rebuild():
+    auth = Auth.Token(GITHUB_TOKEN)
+    g = Github(auth=auth)
+    
+    repo = g.get_organization("nx-academy").get_repo("nx-academy.github.io")
+    workflow = repo.get_workflow("deploy.yml")
+    
+    workflow.create_dispatch(ref="main")
+    print("✅ Rebuild triggered via GitHub Actions.")
 
 
 def create_pull_request_on_github(filename: str, type: str):

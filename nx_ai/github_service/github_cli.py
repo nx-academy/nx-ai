@@ -1,6 +1,6 @@
 import click
 
-from nx_ai.github_service.github_api import create_pull_request_on_github
+from nx_ai.github_service.github_api import create_pull_request_on_github, trigger_gh_rebuild
 
 
 @click.group()
@@ -14,3 +14,9 @@ def create_pr():
     """Create a Pull Request on repo nx-academy.github.io"""
     filename = "optimisation-images-docker"
     create_pull_request_on_github(filename)
+
+
+@github_group.command()
+def deploy_website():
+    """Trigger a rebuild on NX Academy Website"""
+    trigger_gh_rebuild()
