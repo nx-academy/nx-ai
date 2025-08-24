@@ -1,5 +1,5 @@
 import discord
-from discord.ui import Modal, TextInput, button
+from discord.ui import Modal, TextInput
 
 from nx_ai.utils.url_checker import is_url_valid
 from nx_ai.workflows.generate_recap import generate_recap_beta
