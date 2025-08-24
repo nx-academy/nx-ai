@@ -4,7 +4,7 @@ Tu peux inclure des sources en anglais ou en français, mais **traduis systémat
 
 Pour chaque article, renvoie un objet JSON au format suivant :
 - "title" : le titre de l’article (traduit en français si besoin)
-- "content" : un résumé de l’article en français, entre 350 et 500 caractères
+- "content" : un résumé de l’article en français, environ 300 caractères
 - "url" : l’URL de l’article d’origine
 
 Renvoie uniquement un tableau JSON avec 2 éléments. Aucune explication ou commentaire.
