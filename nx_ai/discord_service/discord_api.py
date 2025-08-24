@@ -8,12 +8,14 @@ from nx_ai.utils.slugify import slugify_title
 from nx_ai.utils.url_checker import is_url_valid
 from nx_ai.turso_service.turso_api import insert_news_in_db
 from nx_ai.github_service.github_api import trigger_gh_rebuild
+from nx_ai.openai_service.openai_api import fetch_news_with_gpt_web_search
 
 
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 
 GUILD_ID = 1357783834208243864
 DISCORD_BO_NEWS_FEED = 1407779612439613522
+DISCORD_BO_NEWSROOM_IA = 1408853151733518376
 
 
 class PreviewNewsView(View):
@@ -101,9 +103,9 @@ class NewsFeedClient(discord.Client):
         await self.tree.sync(guild=guild)
 
 
-client = NewsFeedClient()
-
 def run_discord_bot():
+    client = NewsFeedClient()
+    
     @client.event
     async def on_ready():
         print(f"Bot connected as {client.user}")
@@ -118,5 +120,30 @@ def run_discord_bot():
             return
         
         await interaction.response.send_modal(NewsModal())
+        
+    @client.tree.command(name="fetch_news", description="Chercher des news sur Internet")
+    @app_commands.describe(simulate="Si activé, renvoie des données mockées (simulate=True)")
+    async def fetch_news(interaction: discord.Interaction, simulate: bool = True):
+        if interaction.channel_id != DISCORD_BO_NEWSROOM_IA:
+            await interaction.response.send_message(
+                "❌ Cette commande n’est autorisée que dans le channel dédié.",
+                ephemeral=True
+            )
+            return
+            
+        await interaction.response.send_message(f"🔍 Recherche {'simulée' if simulate else 'réelle'} en cours...")
+        
+        news = fetch_news_with_gpt_web_search(simulate=simulate)
+        
+        for item in news.data["data"]:
+            embed = discord.Embed(
+                title=item["title"],
+                description=item["content"],
+                url=item["url"],
+                color=0x3498db
+            )
+            await interaction.followup.send(embed=embed)
+        await interaction.followup.send("✅ Travail terminé.")
+    
     
     client.run(DISCORD_TOKEN)
