@@ -12,6 +12,7 @@ DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
 GUILD_ID = 1357783834208243864
 DISCORD_BO_NEWS_FEED = 1407779612439613522
 DISCORD_BO_NEWSROOM_IA = 1408853151733518376
+DISCORD_BO_LE_RECAP = 1408121527433433221
 
 
 class DiscordClient(discord.Client):
@@ -31,6 +32,17 @@ def run_discord_bot():
     @client.event
     async def on_ready():
         print(f"Bot connected as {client.user}")
+        
+    @client.tree.command(name="create_recap", description="Créer un nouveau Le Recap")
+    async def create_recap(interaction: discord.Interaction):
+        if interaction.channel_id != DISCORD_BO_LE_RECAP:
+            await interaction.response.send_message(
+                "❌ Cette commande n’est autorisée que dans le channel dédié.",
+                ephemeral=True
+            )
+            return
+
+        await interaction.response.send_message("Ok, let's go!")
     
     @client.tree.command(name="add_news", description="Créer une nouvelle news")
     async def create_news(interaction: discord.Interaction):
