@@ -1,5 +1,5 @@
 # NX Academy - AI Source Code  
-Collection of Python scripts using the OpenAI API to generate content (quizzes, summaries, …) and run automated jobs.
+Collection of RAG scripts using the OpenAI API to generate content (quizzes, summaries, …) and run automated jobs.
 
 ## Welcome to NX Academy 👋
 
@@ -7,12 +7,14 @@ Thanks for taking the time to read this documentation!
 This repository is dedicated **only** to the AI jobs and workflows powering NX Academy.  
 
 At the moment, it mainly relies on the OpenAI API to:  
-- create quizzes  
-- generate article drafts  
-- extract summaries  
-- (soon) run Discord bots acting as small back-office tools for the project  
+- create quizzes;
+- extract metadata such as title and summary from online articles;
+- search the web for news on target subjets (IA, DevOps, etc.);
+- run a Discord bot acting as small back-office tool for the project, for example for generating News in NewsFeed;
 
-You’re free to clone this repo and explore the source code. Keep in mind that it’s tightly coupled to NX Academy: you’ll need your own environment variables to make it fully work. That being said, feel free to look around and reach out if you have questions — my Discord username is **tdimnet** and I’m usually available to answer.
+You’re free to clone this repo and explore the source code. Keep in mind that it’s tightly coupled to NX Academy: you’ll need your own environment variables to make it fully work.
+
+That being said, feel free to look around and reach out if you have questions, my Discord username is **tdimnet** and I’m usually available to answer.
 
 ---
 
