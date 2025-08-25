@@ -1,5 +1,12 @@
 import click
 
+from nx_ai.vector_store_service.vector_store_api import (
+    list_openai_vector_stores,
+    create_openai_vector_store,
+    get_openai_vector_store,
+    delete_openai_vector_store
+)
+
 
 @click.group()
 def vector_store_group():
@@ -10,7 +17,8 @@ def vector_store_group():
 @vector_store_group.command()
 def list():
     """Retrieve all the vectors stored"""
-    pass
+    vector_stores = list_openai_vector_stores()
+    print(vector_stores)
 
 
 @vector_store_group.command()
@@ -18,6 +26,26 @@ def list():
               help="The name of the OpenAI Vector Store you'd like to create")
 def create(name: str):
     """Create a new vector store"""
-    pass
+    vector_store = create_openai_vector_store(name=name)
+    print(vector_store)
+
+
+@vector_store_group.command()
+@click.option("--id",
+              help="The ID of the Vector Store you're searching for")
+def get(id: str):
+    """Search for a Specific Vector Store by ID"""
+    vector_store = get_openai_vector_store(id=id)
+    print(vector_store)
+
+
+@vector_store_group.command()
+@click.option("--id",
+              prompt="You are about to delete a Vector Store. Type its ID to confirm")
+def delete(id: str):
+    """Delete a Specific Vector Store with its ID"""
+    vector_store = delete_openai_vector_store(id=id)
+    print(vector_store)
+
 
 
