@@ -11,5 +11,5 @@ def discord_group():
 
 @discord_group.command()
 def run_bot():
-    """Run a basic discord bot (for now...)"""
+    """Run NX Discord bot that allows to create News, fetch news, and more, directly from Discord"""
     run_discord_bot()
