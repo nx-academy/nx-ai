@@ -40,3 +40,12 @@ def search_vector_store(id: str, query: str):
         }]
     )
     return response
+
+
+def upload_files_to_vector_store(id: str, files_path: list[str]):
+    print(files_path)
+    # file_streams = [open(path, "rb") for path in file_path]
+    
+    # print("====")
+    # print(file_streams)
+    # print("====")

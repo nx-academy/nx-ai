@@ -1,3 +1,4 @@
+from pathlib import Path
 import click
 
 from nx_ai.vector_store_service.vector_store_api import (
@@ -5,7 +6,8 @@ from nx_ai.vector_store_service.vector_store_api import (
     create_openai_vector_store,
     get_openai_vector_store,
     delete_openai_vector_store,
-    search_vector_store
+    search_vector_store,
+    upload_files_to_vector_store
 )
 
 
@@ -62,3 +64,16 @@ def search(id: str, query: str):
     print("====")
     print(response)
     print("====")
+
+
+@vector_store_group.command()
+@click.option("--id", prompt="ID of the Vector Store",
+              help="The ID of the Vector Store You Want to Upload Files to")
+@click.option("--location", prompt="Location of the Files Folder",
+              help="the Path location of your files")
+def upload_files(id: str, location: str):
+    """Upload a Batch of Files to a Choosen Vector Store"""
+    upload_files_to_vector_store(
+        id=id,
+        files_path=list(Path(location).glob("*.md"))
+    )
