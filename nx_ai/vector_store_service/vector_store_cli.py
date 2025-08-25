@@ -4,7 +4,8 @@ from nx_ai.vector_store_service.vector_store_api import (
     list_openai_vector_stores,
     create_openai_vector_store,
     get_openai_vector_store,
-    delete_openai_vector_store
+    delete_openai_vector_store,
+    search_vector_store
 )
 
 
@@ -41,11 +42,23 @@ def get(id: str):
 
 @vector_store_group.command()
 @click.option("--id",
-              prompt="You are about to delete a Vector Store. Type its ID to confirm")
+              prompt="You are about to delete a Vector Store. Type its ID to confirm",
+              help="Delete a Vector Store with its ID")
 def delete(id: str):
     """Delete a Specific Vector Store with its ID"""
     vector_store = delete_openai_vector_store(id=id)
     print(vector_store)
 
 
-
+@vector_store_group.command()
+@click.option("--id", prompt="ID of the Vector Store",
+               help="The ID of the Vector Store you Want to Perform a Research Against")
+@click.option("--query", prompt="Query for the LLM",
+               help="a Query Input that will be used in the LLM to perform the search")
+def search(id: str, query: str):
+    """Search In a OpenAI Vector Store"""
+    response = search_vector_store(id=id, query=query)
+    
+    print("====")
+    print(response)
+    print("====")

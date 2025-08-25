@@ -28,3 +28,15 @@ def delete_openai_vector_store(id: str):
         vector_store_id=id
     )
     return vector_store
+
+
+def search_vector_store(id: str, query: str):
+    response = client.responses.create(
+        model="gpt-4o-mini",
+        input=query,
+        tools=[{
+            "type": "file_search",
+            "vector_store_ids": [id]
+        }]
+    )
+    return response
