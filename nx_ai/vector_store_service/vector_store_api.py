@@ -44,8 +44,10 @@ def search_vector_store(id: str, query: str):
 
 def upload_files_to_vector_store(id: str, files_path: list[str]):
     print(files_path)
-    # file_streams = [open(path, "rb") for path in file_path]
+    file_streams = [open(path, "rb") for path in files_path]
     
-    # print("====")
-    # print(file_streams)
-    # print("====")
+    file_batch = client.vector_stores.file_batches.upload_and_poll(
+        vector_store_id=id,
+        files=file_streams
+    )
+    return file_batch

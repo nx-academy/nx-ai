@@ -1,4 +1,4 @@
-from pathlib import Path
+import os
 import click
 
 from nx_ai.vector_store_service.vector_store_api import (
@@ -9,6 +9,9 @@ from nx_ai.vector_store_service.vector_store_api import (
     search_vector_store,
     upload_files_to_vector_store
 )
+
+# For now, I've created an env variable for the Vector Store ID
+VECTOR_STORE_ID = os.environ.get("VECTOR_STORE_ID")
 
 
 @click.group()
@@ -61,19 +64,23 @@ def search(id: str, query: str):
     """Search In a OpenAI Vector Store"""
     response = search_vector_store(id=id, query=query)
     
-    print("====")
     print(response)
-    print("====")
 
 
 @vector_store_group.command()
-@click.option("--id", prompt="ID of the Vector Store",
-              help="The ID of the Vector Store You Want to Upload Files to")
-@click.option("--location", prompt="Location of the Files Folder",
-              help="the Path location of your files")
-def upload_files(id: str, location: str):
+def upload_files():
     """Upload a Batch of Files to a Choosen Vector Store"""
-    upload_files_to_vector_store(
-        id=id,
-        files_path=list(Path(location).glob("*.md"))
+    # For now, I've hardcoded texts to send to Vector Store
+    files = [
+        "data/stylistic_samples/decouverte_docker.md",
+        "data/stylistic_samples/point_nx_2025.md",
+        "data/stylistic_samples/welcome_v2.md"
+    ]
+    
+    vector_store = upload_files_to_vector_store(
+        id=VECTOR_STORE_ID,
+        files_path=files
     )
+    
+    print(vector_store.status)
+    print(vector_store.file_counts)
