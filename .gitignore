@@ -7,6 +7,7 @@ nx_ai/courses_data
 nx_ai/quizzes_data
 nx_ai/articles_data
 nx_ai/recap_data
+data/stylistic_samples
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
