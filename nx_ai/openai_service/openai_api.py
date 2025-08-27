@@ -10,7 +10,8 @@ from nx_ai.openai_service.gpt_models import (
     GPTFetchedNews,
     GPTGeneratedQuiz,
     GPTResponse,
-    GPTSummarizedArticle
+    GPTSummarizedArticle,
+    GPTStyledSummary
 )
 
 
@@ -166,7 +167,14 @@ def fetch_news_with_gpt_web_search(simulate: bool):
         return gpt_fetched_news
 
 
-def rewrite_summary_with_personal_style(raw_summary: str):
+def rewrite_summary_with_personal_style(simulate: bool, raw_summary: str):
+    if simulate:
+        with open("mock/gpt_styled_summary.txt", mode="r", encoding="utf-8") as f:
+            mock = f.read()
+            simulate_gpt_styled_summary = GPTStyledSummary(FakeResponse(mock, use_tool=True))
+            
+            return simulate_gpt_styled_summary
+            
     prompt_path = Path("prompts/style_summary.txt")
     with open(prompt_path, mode="r" ,encoding="utf-8") as f:
         prompt = f.read()
@@ -184,6 +192,5 @@ def rewrite_summary_with_personal_style(raw_summary: str):
         ]
     )
     
-    print("=====")
-    print(response)
-    print("=====")
+    gpt_styled_summary = GPTStyledSummary(response)
+    return gpt_styled_summary

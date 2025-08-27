@@ -138,3 +138,20 @@ class GPTFetchedNews:
     
     def __len__(self):
         return len(self.data)
+
+
+class GPTStyledSummary:
+    def __init__(self, raw_response):
+        self.raw = raw_response
+        try:
+            self.text = raw_response.output[1].content[0].text
+        except (AttributeError, IndexError) as e:
+            raise ValueError(f"Error when parsing styled summary from GPT: {e}")
+    
+    def __repr__(self):
+        return f"<GPTStyledSummary: {self.text[:60]}...>"
+    
+    def to_dict(self):
+        return {
+            "text": self.text
+        }
