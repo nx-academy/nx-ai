@@ -5,3 +5,5 @@ services:
       target: prod
     env_file:
       - ./.env
+    tty: true
+    stdin_open: true

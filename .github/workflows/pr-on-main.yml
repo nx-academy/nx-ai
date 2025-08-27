@@ -13,7 +13,9 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
+
       - name: Build Docker test image
         run: docker image build -t nx-ai-test --target test .
+
       - name: Run tests inside the container
         run: docker container run --rm nx-ai-test
