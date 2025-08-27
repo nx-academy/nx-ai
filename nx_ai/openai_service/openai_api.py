@@ -166,11 +166,16 @@ def fetch_news_with_gpt_web_search(simulate: bool):
         return gpt_fetched_news
 
 
-def rewrite_summary_with_personal_style():
+def rewrite_summary_with_personal_style(raw_summary: str):
+    prompt_path = Path("prompts/style_summary.txt")
+    with open(prompt_path, mode="r" ,encoding="utf-8") as f:
+        prompt = f.read()
+    
+    prompt = prompt.replace("{{TEXT}}", raw_summary)
+    
     response = client.responses.create(
         model="gpt-4o-mini",
-        input="""
-        """,
+        input=prompt,
         tools=[
             {
                 "type": "file_search",
