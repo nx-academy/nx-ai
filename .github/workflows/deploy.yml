@@ -28,8 +28,8 @@ jobs:
       - name: Building then pushing the image
         uses: docker/build-push-action@v6
         with:
-          platforms: linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7
-          push: true
-          load: false
-          tags: ${{ secrets.DOCKER_USERNAME }}/nx-ai:latest
+          context: .
+          platforms: linux/amd64,linux/arm64
           target: prod
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/nx-ai:latest
