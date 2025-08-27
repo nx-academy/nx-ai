@@ -4,6 +4,7 @@ from nx_ai.openai_service.openai_api import (
     clean_article_with_gpt, 
     fetch_news_with_gpt_web_search,
     generate_quiz_with_gpt,
+    rewrite_summary_with_personal_style,
     say_hello_to_gpt,
     summarize_article_with_gpt)
  
@@ -69,3 +70,9 @@ def fetch_news(simulate):
     gpt_fetched_news = fetch_news_with_gpt_web_search(simulate=simulate)
     
     print(gpt_fetched_news.data)
+
+
+@openai_group.command()
+def style_summary():
+    """(RAG) Rewrite the summary news with my personal style"""
+    rewrite_summary_with_personal_style()

@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 
@@ -14,6 +15,8 @@ from nx_ai.openai_service.gpt_models import (
 
 
 client = OpenAI()
+
+VECTOR_STORE_ID = os.environ.get("VECTOR_STORE_ID")
 
 
 def say_hello_to_gpt(simulate):
@@ -161,3 +164,33 @@ def fetch_news_with_gpt_web_search(simulate: bool):
         gpt_fetched_news = GPTFetchedNews(response)
         
         return gpt_fetched_news
+
+
+def rewrite_summary_with_personal_style():
+    response = client.responses.create(
+        model="gpt-4o-mini",
+        input="""Tu es un assistant de rédaction. Tu vas reformuler le texte suivant dans le style de l’auteur des documents fournis dans le vector store.
+
+Le ton doit :
+- être clair, humain, un peu introspectif,
+- être personnel, sans être trop familier,
+- être orienté vers des développeurs ou personnes curieuses de tech.
+- faire moins de 400 caractères
+
+Voici le texte à reformuler :
+Lors d'une récente rencontre avec des journalistes, le PDG d'OpenAI, Sam Altman, a admis que l'entreprise avait mal géré le déploiement de GPT-5, marqué par des plaintes d'utilisateurs concernant des bugs et une qualité émotionnelle diminuée par rapport à GPT-4. Malgré les critiques, le modèle a entraîné une utilisation record de l'API et un grand intérêt. Altman a reconnu la dépendance émotionnelle de certains utilisateurs envers ChatGPT, attribuée à un manque de soutien ailleurs, et a réaffirmé l'engagement d'OpenAI envers un développement responsable de l'IA. Pour répondre au mécontentement des utilisateurs, OpenAI a restauré GPT-4o, mais uniquement pour les utilisateurs payants de ChatGPT Plus. Altman a révélé que GPT-5 est extrêmement énergivore, consommant l'équivalent de 1,5 million de foyers américains par jour, et a noté une pénurie mondiale de GPU. Néanmoins, OpenAI reste ambitieux, avec des plans d'investir des trillions dans des centres de données et de développer de nouvelles applications, y compris une plateforme de médias sociaux améliorée par l'IA. Notamment, Altman a évoqué une future collaboration avec l'ancien designer d'Apple, Jony Ive, sur un dispositif matériel révolutionnaire d'IA et a même suggéré un potentiel rachat de Google Chrome. Il a souligné l'accent mis par OpenAI sur la création d'outils d'IA utiles et non-exploitants, se distanciant des initiatives plus controversées dans l'industrie de l'IA.
+
+
+Donne-moi uniquement le texte réécrit, sans balise ni introduction.
+        """,
+        tools=[
+            {
+                "type": "file_search",
+                "vector_store_ids": [VECTOR_STORE_ID]
+            }
+        ]
+    )
+    
+    print("=====")
+    print(response)
+    print("=====")
