@@ -1,0 +1,7 @@
+services:
+  nx-ai:
+    build:
+      context: .
+      target: prod
+    env_file:
+      - ./.env
