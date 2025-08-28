@@ -43,6 +43,6 @@ class RecapModal(Modal, title="Créer un nouveau Le Recap"):
         
         await interaction.response.send_message(f"Construction du Recap {title_input} en cours...")
         
-        generate_recap_beta(urls=urls, filename=title_input, simulate=True)
+        generate_recap_beta(urls=urls, filename=title_input, simulate=False)
         
         await interaction.followup.send("✅ Travail terminé.")
