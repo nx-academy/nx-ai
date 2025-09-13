@@ -5,6 +5,7 @@ from discord import app_commands
 
 from nx_ai.discord_service.news_modal import NewsModal
 from nx_ai.discord_service.recap_modal import RecapModal
+from nx_ai.discord_service.quiz_modal import QuizModal
 from nx_ai.openai_service.openai_api import fetch_news_with_gpt_web_search
 
 
@@ -43,7 +44,7 @@ def run_discord_bot():
             )
             return
         
-        await interaction.response.send_message("Ok, let's go!")
+        await interaction.response.send_modal(QuizModal())
         
     @client.tree.command(name="create_recap", description="Créer un nouveau Le Recap")
     async def create_recap(interaction: discord.Interaction):
