@@ -32,7 +32,7 @@ class QuizModal(Modal, title="Créer un nouveau quiz"):
         generate_quiz_beta(
             url=cheatsheet_url,
             filename=title_input,
-            simulate=True
+            simulate=False
         )
 
         await interaction.followup.send("✅ Travail terminé.")
