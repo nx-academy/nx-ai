@@ -2,6 +2,7 @@ import discord
 from discord.ui import Modal, TextInput
 
 from nx_ai.utils.url_checker import is_url_valid
+from nx_ai.workflows.generate_quiz import generate_quiz_beta
 
 
 class QuizModal(Modal, title="Créer un nouveau quiz"):
@@ -27,3 +28,11 @@ class QuizModal(Modal, title="Créer un nouveau quiz"):
             return
         
         await interaction.response.send_message(f"Construction du Quiz {title_input} en cours...")
+
+        generate_quiz_beta(
+            url=cheatsheet_url,
+            filename=title_input,
+            simulate=True
+        )
+
+        await interaction.followup.send("✅ Travail terminé.")
