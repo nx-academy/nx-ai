@@ -56,7 +56,7 @@ def create_pull_request_on_github(filename: str, type: str):
             content = f.read()
             
         repo.create_file(
-            path=f"src/pages/draft/{filename}.md",
+            path=f"src/pages/drafts/{filename}.md",
             message=f"Ajout du recap {filename}",
             content=content,
             branch=f"ai_{filename}"
