@@ -81,6 +81,4 @@ def style_summary(simulate):
     
     gpt_styled_summary = rewrite_summary_with_personal_style(simulate=simulate, raw_summary=sample_raw_summary)
     
-    print("=====")
     print(gpt_styled_summary)
-    print("=====")

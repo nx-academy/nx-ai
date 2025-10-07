@@ -180,7 +180,6 @@ def rewrite_summary_with_personal_style(simulate: bool, raw_summary: str):
         prompt = f.read()
     
     prompt = prompt.replace("{{TEXT}}", raw_summary)
-    
     response = client.responses.create(
         model="gpt-4o-mini",
         input=prompt,
