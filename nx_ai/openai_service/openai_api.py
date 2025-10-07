@@ -1,3 +1,4 @@
+import os
 import json
 from pathlib import Path
 
@@ -9,11 +10,14 @@ from nx_ai.openai_service.gpt_models import (
     GPTFetchedNews,
     GPTGeneratedQuiz,
     GPTResponse,
-    GPTSummarizedArticle
+    GPTSummarizedArticle,
+    GPTStyledSummary
 )
 
 
 client = OpenAI()
+
+VECTOR_STORE_ID = os.environ.get("VECTOR_STORE_ID")
 
 
 def say_hello_to_gpt(simulate):
@@ -161,3 +165,31 @@ def fetch_news_with_gpt_web_search(simulate: bool):
         gpt_fetched_news = GPTFetchedNews(response)
         
         return gpt_fetched_news
+
+
+def rewrite_summary_with_personal_style(simulate: bool, raw_summary: str):
+    if simulate:
+        with open("mock/gpt_styled_summary.txt", mode="r", encoding="utf-8") as f:
+            mock = f.read()
+            simulate_gpt_styled_summary = GPTStyledSummary(FakeResponse(mock, use_tool=True))
+            
+            return simulate_gpt_styled_summary
+            
+    prompt_path = Path("prompts/style_summary.txt")
+    with open(prompt_path, mode="r" ,encoding="utf-8") as f:
+        prompt = f.read()
+    
+    prompt = prompt.replace("{{TEXT}}", raw_summary)
+    response = client.responses.create(
+        model="gpt-4o-mini",
+        input=prompt,
+        tools=[
+            {
+                "type": "file_search",
+                "vector_store_ids": [VECTOR_STORE_ID]
+            }
+        ]
+    )
+    
+    gpt_styled_summary = GPTStyledSummary(response)
+    return gpt_styled_summary
