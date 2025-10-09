@@ -1,0 +1,13 @@
+services:
+  nx-ai:
+    build:
+      context: .
+      target: vim-dev
+    env_file:
+      - ./.env
+    tty: true
+    stdin_open: true
+    volumes:
+      - ./:/workspaces/nx-ai
+      - ./.vim/.vimrc:/root/.vimrc
+
