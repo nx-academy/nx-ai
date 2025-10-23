@@ -1,7 +1,7 @@
 import os
 
 import discord
-from discord import app_commands
+from discord import Interaction, app_commands
 
 from nx_ai.discord_service.news_modal import NewsModal
 from nx_ai.discord_service.recap_modal import RecapModal
@@ -16,6 +16,7 @@ DISCORD_BO_NEWS_FEED = 1407779612439613522
 DISCORD_BO_NEWSROOM_IA = 1408853151733518376
 DISCORD_BO_LE_RECAP = 1408121527433433221
 DISCORD_BO_QUIZ = 1416441425238949988
+DISCORD_BO_STYLE_TEXT = 1425854954194600017
 
 
 class DiscordClient(discord.Client):
@@ -91,6 +92,14 @@ def run_discord_bot():
             )
             await interaction.followup.send(embed=embed)
         await interaction.followup.send("✅ Travail terminé.")
-    
+
+    @client.tree.command(name="style-text",
+                         description="Reécrire un texte avec mon style personnel")
+    @app_commands.describe(simulate="Si activé, permet de simuler la reécriture")
+    async def style_text(interaction: discord.Interaction, simulate: bool =
+                         True):
+        print("=====")
+        print("=====")
+        print("=====")
     
     client.run(DISCORD_TOKEN)
