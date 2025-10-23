@@ -167,7 +167,7 @@ def fetch_news_with_gpt_web_search(simulate: bool):
         return gpt_fetched_news
 
 
-def rewrite_summary_with_personal_style(simulate: bool, raw_summary: str):
+def rewrite_summary_with_personal_style(simulate: bool, raw_summary: str) -> GPTStyledSummary:
     if simulate:
         with open("mock/gpt_styled_summary.txt", mode="r", encoding="utf-8") as f:
             mock = f.read()

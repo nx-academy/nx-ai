@@ -6,7 +6,9 @@ from discord import Interaction, app_commands
 from nx_ai.discord_service.news_modal import NewsModal
 from nx_ai.discord_service.recap_modal import RecapModal
 from nx_ai.discord_service.quiz_modal import QuizModal
-from nx_ai.openai_service.openai_api import fetch_news_with_gpt_web_search
+from nx_ai.openai_service.openai_api import (
+        fetch_news_with_gpt_web_search,
+        rewrite_summary_with_personal_style)
 
 
 DISCORD_TOKEN = os.environ.get("DISCORD_TOKEN")
@@ -38,7 +40,7 @@ def run_discord_bot():
         print(f"Bot connected as {client.user}")
 
     @client.tree.command(name="create_quiz", description="Créer un nouveau quiz à partir d'une fiche technique")
-    async def create_quiz(interaction: discord.Interaction):
+    async def create_quiz(interaction: Interaction):
         if interaction.channel_id != DISCORD_BO_QUIZ:
             await interaction.response.send_message(
                 "❌ Cette commande n’est autorisée que dans le channel dédié.",
@@ -48,7 +50,7 @@ def run_discord_bot():
         await interaction.response.send_modal(QuizModal())
         
     @client.tree.command(name="create_recap", description="Créer un nouveau Le Recap")
-    async def create_recap(interaction: discord.Interaction):
+    async def create_recap(interaction: Interaction):
         if interaction.channel_id != DISCORD_BO_LE_RECAP:
             await interaction.response.send_message(
                 "❌ Cette commande n’est autorisée que dans le channel dédié.",
@@ -59,7 +61,7 @@ def run_discord_bot():
         await interaction.response.send_modal(RecapModal())
     
     @client.tree.command(name="add_news", description="Créer une nouvelle news")
-    async def create_news(interaction: discord.Interaction):
+    async def create_news(interaction: Interaction):
         if interaction.channel_id != DISCORD_BO_NEWS_FEED:
             await interaction.response.send_message(
                 "❌ Cette commande n’est autorisée que dans le channel dédié.",
@@ -71,7 +73,7 @@ def run_discord_bot():
         
     @client.tree.command(name="fetch_news", description="Chercher des news sur Internet")
     @app_commands.describe(simulate="Si activé, renvoie des données mockées (simulate=True)")
-    async def fetch_news(interaction: discord.Interaction, simulate: bool = True):
+    async def fetch_news(interaction: Interaction, simulate: bool = True):
         if interaction.channel_id != DISCORD_BO_NEWSROOM_IA:
             await interaction.response.send_message(
                 "❌ Cette commande n’est autorisée que dans le channel dédié.",
@@ -96,10 +98,26 @@ def run_discord_bot():
     @client.tree.command(name="style-text",
                          description="Reécrire un texte avec mon style personnel")
     @app_commands.describe(simulate="Si activé, permet de simuler la reécriture")
-    async def style_text(interaction: discord.Interaction, simulate: bool =
-                         True):
-        print("=====")
-        print("=====")
-        print("=====")
+    async def style_text(
+            interaction: Interaction,
+            simulate: bool = True):
+        if interaction.channel_id != DISCORD_BO_STYLE_TEXT:
+            await interaction.response.send_message(
+                    content="❌ Cette commande n’est autorisée que dans le channel dédié.",
+                    ephemeral=True
+            )
+            return
+
+        await interaction.response.send_message(f"Écriture {'simulée' if
+                                                simulate else 'réelle'} en cours...")
+
+        styled_text = rewrite_summary_with_personal_style(
+            simulate=simulate,
+            raw_summary=""
+        )
+
+        await interaction.followup.send(f"voici le texte adapté à mon style: {styled_text.text}")
+        await interaction.followup.send("✅ Travail terminé.")
+
     
     client.run(DISCORD_TOKEN)
