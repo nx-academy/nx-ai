@@ -6,6 +6,7 @@ from discord import Interaction, app_commands
 from nx_ai.discord_service.news_modal import NewsModal
 from nx_ai.discord_service.recap_modal import RecapModal
 from nx_ai.discord_service.quiz_modal import QuizModal
+from nx_ai.discord_service.summary_modal import SummaryModal
 from nx_ai.openai_service.openai_api import (
         fetch_news_with_gpt_web_search,
         rewrite_summary_with_personal_style)
@@ -97,10 +98,7 @@ def run_discord_bot():
 
     @client.tree.command(name="style-text",
                          description="Reécrire un texte avec mon style personnel")
-    @app_commands.describe(simulate="Si activé, permet de simuler la reécriture")
-    async def style_text(
-            interaction: Interaction,
-            simulate: bool = True):
+    async def style_text(interaction: Interaction):
         if interaction.channel_id != DISCORD_BO_STYLE_TEXT:
             await interaction.response.send_message(
                     content="❌ Cette commande n’est autorisée que dans le channel dédié.",
@@ -108,16 +106,7 @@ def run_discord_bot():
             )
             return
 
-        await interaction.response.send_message(f"Écriture {'simulée' if
-                                                simulate else 'réelle'} en cours...")
-
-        styled_text = rewrite_summary_with_personal_style(
-            simulate=simulate,
-            raw_summary=""
-        )
-
-        await interaction.followup.send(f"voici le texte adapté à mon style: {styled_text.text}")
-        await interaction.followup.send("✅ Travail terminé.")
+        await interaction.response.send_modal(SummaryModal())
 
     
     client.run(DISCORD_TOKEN)
