@@ -8,5 +8,5 @@ Le ton doit :
 
 Voici le texte à reformuler : {{TEXT}}
 
-
 Donne-moi uniquement le texte réécrit, sans balise ni introduction.
+
