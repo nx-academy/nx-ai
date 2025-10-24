@@ -24,7 +24,6 @@ def say_hello(simulate):
     
     print(gpt_response)
 
-
 @openai_group.command()
 @click.option("--simulate", is_flag=True, help="Simulate the API call by using a local text file")
 def clean_article(simulate):
