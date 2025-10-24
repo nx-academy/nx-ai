@@ -15,14 +15,13 @@ class SummaryModal(Modal, title="Générer un résumé personnalisé"):
     async def on_submit(self, interaction: discord.Interaction) :
         text_input = str(self.text_input).strip()
 
-        await interaction.followup.send("Résumé en cours de réalisation...")
+        await interaction.response.send_message("Résumé en cours de réalisation...")
 
         styled_text = rewrite_summary_with_personal_style(
             simulate=False,
             raw_summary=text_input
         )
 
-        await interaction,followup.send(f"Voici le texte reformulée: {styled_text.text}")
-
+        await interaction.followup.send(f"Voici le texte retravaillé: {styled_text.text}")
         await interaction.followup.send("✅ Travail terminé.")
 
