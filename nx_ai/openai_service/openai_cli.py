@@ -6,7 +6,8 @@ from nx_ai.openai_service.openai_api import (
     generate_quiz_with_gpt,
     rewrite_summary_with_personal_style,
     say_hello_to_gpt,
-    summarize_article_with_gpt)
+    summarize_article_with_gpt,
+    make_web_search)
  
 
 @click.group()
@@ -60,6 +61,10 @@ def generate_quiz(simulate):
     
     print(gpt_generated_quiz.data)
 
+
+@openai_group.command()
+def web_search():
+    make_web_search()
 
 @openai_group.command()
 @click.option("--simulate", is_flag=True,

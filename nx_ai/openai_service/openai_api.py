@@ -35,20 +35,15 @@ def say_hello_to_gpt(simulate):
     
     return gpt_response
 
-def make_web_search(simulate: bool):
-    if simulate:
-        return
-
+def make_web_search():
     response = client.responses.create(
         model="gpt-5",
-        tools=[
-            { type: "web_search" }
-        ],
-        input="What was a positive news story from today?"
+        tools=[{"type": "web_search"}],
+        input="What was a positive news from today"
     )
 
     print("=====")
-    print(response)
+    print(response.output_text)
     print("=====")
 
 
